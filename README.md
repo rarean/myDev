@@ -1,4 +1,4 @@
-# Dev Box setup
+# CentOS 6.5 Dev Box setup
 
 * run setup.sh to install vim bundles, copy config files, install java &
 docker, etc
@@ -14,6 +14,7 @@ docker, etc
 			sudo gpasswd -a `your_username` docker
 
 * Add following line to Docker configuration file
+
 			vi /etc/sysconfig/docker
 			other_args=" -H tcp://127.0.0.1:4243 -H unix:///var/run/docker.sock"
 
