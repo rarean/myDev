@@ -1,0 +1,11 @@
+[user]
+	name = Aaron Perez
+	email = aperez@peer1.com
+[core]
+	editor = vim
+[merge]
+	tool = vimdiff
+[push]
+	default = upstream
+[color]
+	ui = auto
