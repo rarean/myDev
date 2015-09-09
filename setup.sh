@@ -54,12 +54,14 @@ git clone https://github.com/scrooloose/nerdtree.git
 
 #install docker
 sudo yum -y update
-sudo yum -y install docker.io
-sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
-sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+sudo su -c 'rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm'
+sudo yum -y install epel-release
 
-#run docker without sudo
+sudo yum -y install docker.io
+#sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
+#sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+
 #sudo groupadd docker
-sudo gpasswd -a aperez docker
-sudo service docker.io restart
+#sudo gpasswd -a aperez docker
+#sudo service docker.io restart
 
