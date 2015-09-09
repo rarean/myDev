@@ -3,15 +3,22 @@
 * run setup.sh to install vim bundles, copy config files, install java &
 docker, etc
 
-* generate ssh keys with ssh-keygen -t rsa -C "your_username@myCompany.com"
+* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
 
 * ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
+
+## finish git setup
+
+* update username
+
+			git config --global user.name "John Doe"
+			git config --global user.email johndoe@example.com
 
 ## finish docker setup
 * Add yourself into the docker group
 
 			sudo groupadd docker
-			sudo gpasswd -a `your_username` docker
+			sudo gpasswd -a johndoe docker
 
 * Add following line to Docker configuration file
 
