@@ -34,7 +34,8 @@ au InsertLeave * match ExtraWhitespace /\s\+$/
 
 "set colorscheme
 colorscheme default
-set mouse=a
+"mouse support
+"set mouse=a
 
 set incsearch " smart searching
 set ignorecase " ignore case when searching

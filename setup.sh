@@ -40,7 +40,7 @@ cp .zshrc ~/
 cp .gitconfig ~/
 
 #install pathogen
-mkdir -p ~/.vim/autoload ~/.vim/bundle
+sudo mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -so ~/.vim/autoload/pathogen.vim https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 
 #install Bundle 'Syntastic'
@@ -53,15 +53,21 @@ git clone https://github.com/scrooloose/nerdtree.git
 
 
 #install docker
-sudo yum -y update
-sudo su -c 'rpm -Uvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm'
+sudo su -c 'rpm -iUvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm'
 sudo yum -y install epel-release
+sudo yum -y update
 
-sudo yum -y install docker.io
-#sudo ln -sf /usr/bin/docker.io /usr/local/bin/docker
-#sudo sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
-
+sudo yum -y install docker-io
 #sudo groupadd docker
 #sudo gpasswd -a aperez docker
-#sudo service docker.io restart
+sudo service docker start
 
+
+# Download and set up Maven 3
+wget --no-cookies http://mirrors.muzzy.org.uk/apache/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz -O - >> /tmp/apache-maven-3.3.3-bin.tar.gz
+tar xzvf /tmp/apache-maven-3.3.3-bin.tar.gz
+sudo mv apache-maven-3.3.3 /opt
+
+# download and set up Java 8
+wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm
+sudo rpm -ivh jdk-8u60-linux-x64.rpm
