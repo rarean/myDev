@@ -29,11 +29,14 @@
 * Start/Restart docker
 
 			sudo service docker restart
-			logout and log back in again to run docker without sudo
+
+	logout and log back in again to run docker without sudo and get config
+	changes
 
 ## Test install
 * docker version
 * java -version
+* mvn -v
 * node -v
 
 # Notes
