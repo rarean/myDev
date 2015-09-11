@@ -92,7 +92,9 @@ map <leader>ss :setlocal spell!<cr>
 " "curl -so ~/.vim/autoload/pathogen.vim
 " https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 " "Now you can install any plugin into a .vim/bundle/plugin-name/ folder
-call pathogen#infect()
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
 
 "---------------------
 "Bundle 'Syntastic'

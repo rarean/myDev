@@ -1,7 +1,7 @@
 # CentOS 6.5 Dev Box setup
 
-* run setup.sh to install vim bundles, copy config files, install java &
-docker, etc
+* run setup.sh to install nodejs, java, maven & docker
+* run configure.sh to install vim bundles & copy config files
 
 * generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
 
@@ -19,18 +19,22 @@ docker, etc
 
 			sudo groupadd docker
 			sudo gpasswd -a johndoe docker
+			sudo usermod -aG docker your_username
 
 * Add following line to Docker configuration file
 
 			vi /etc/sysconfig/docker
 			other_args=" -H tcp://127.0.0.1:4243 -H unix:///var/run/docker.sock"
 
-## Start/Restart docker
-* sudo service docker restart
+* Start/Restart docker
 
-## Test docker
-* docker --version
+			sudo service docker restart
+			logout and log back in again to run docker without sudo
+
+## Test install
 * docker version
+* java -version
+* node -v
 
 # Notes
 

@@ -6,6 +6,6 @@
 [merge]
 	tool = vimdiff
 [push]
-	default = upstream
+	default = current
 [color]
 	ui = auto
