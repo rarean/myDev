@@ -12,7 +12,8 @@ sudo yum -y update
 echo "=========> install NodeJs"
 curl --silent --location https://rpm.nodesource.com/setup | bash -
 sudo yum -y install nodejs
-
+curl -L https://www.npmjs.com/install.sh | sudo sh
+sudo npm install -g npm@3.0-latest
 
 echo "=========> installing Docker"
 sudo yum -y install docker-io

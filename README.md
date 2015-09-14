@@ -1,4 +1,4 @@
-# CentOS 6.5 Dev Box setup
+# CentOS 6.7 Dev Box setup
 
 * run setup.sh to install nodejs, java, maven & docker
 * run configure.sh to install vim bundles & copy config files
@@ -38,6 +38,7 @@
 * java -version
 * mvn -v
 * node -v
+* npm -v
 
 # Notes
 
