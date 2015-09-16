@@ -17,7 +17,6 @@
 ## finish docker setup
 * Add yourself into the docker group
 
-			sudo groupadd docker
 			sudo gpasswd -a johndoe docker
 			sudo usermod -aG docker your_username
 
