@@ -30,4 +30,12 @@ echo "=========> installing Java 1.8"
 wget --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u60-b27/jdk-8u60-linux-x64.rpm
 sudo rpm -iUvh jdk-8u60-linux-x64.rpm
 
+echo "=========> installing python-sphinx"
+sudo yum -y install python-sphinx python-pip python-virtualenv
+
+
+echo "=========> installing graphViz"
+wget http://www.graphviz.org/graphviz-rhel.repo
+sudo mv graphviz-rhel.repo /etc/yum.repos.d/
+sudo yum install -y graphviz
 
