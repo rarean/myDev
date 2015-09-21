@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 sudo yum -y install vim memcached git zsh curl gcc make tmux
 sudo yum -y install php5 libapache2-mod-php5 php5-mcrypt
 sudo yum -y install php5-mysql pdo-mysql php5-cli
