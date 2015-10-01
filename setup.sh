@@ -1,8 +1,9 @@
 #!/bin/bash
+sudo yum -y groupinstall "Development Tools"
 sudo yum -y install vim memcached git zsh curl gcc make tmux
 sudo yum -y install php5 libapache2-mod-php5 php5-mcrypt
 sudo yum -y install php5-mysql pdo-mysql php5-cli
-sudo yum -y groupinstall "Development Tools"
+sudo yum -y install phython-pip python-sphinx python-virtualenv
 
 echo "=========> adding epel repo"
 sudo su -c 'rpm -iUvh http://download.fedoraproject.org/pub/epel/6/i386/epel-release-6-8.noarch.rpm'
