@@ -8,10 +8,11 @@
 "Bundle 'git@github.com:nathanaelkane/vim-indent-guides.git'
 
 set nocompatible "to get all the vim-only options
-"set encoding=utf-8 "default encoding to utf-8
-"set fileencoding=utf-8  " The encoding written to file.
-"filetype plugin indent on "enable filetype detection
-"syntax enable "enable syntax highlighting
+set encoding=utf-8 "default encoding to utf-8
+set fileencoding=utf-8  " The encoding written to file.
+filetype plugin indent on "enable filetype detection
+syntax enable "enable syntax highlighting
+syntax on
 
 "better indentation for visual mode
 vnoremap < <gv
@@ -34,6 +35,7 @@ au InsertLeave * match ExtraWhitespace /\s\+$/
 
 "set colorscheme
 colorscheme default
+set mouse=a
 
 set incsearch " smart searching
 set ignorecase " ignore case when searching
@@ -91,14 +93,31 @@ map <leader>ss :setlocal spell!<cr>
 " https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim
 " "Now you can install any plugin into a .vim/bundle/plugin-name/ folder
 execute pathogen#infect()
-syntax on
-filetype plugin indent on
 
 "---------------------
 "Bundle 'Syntastic'
 "cd ~/.vim/bundle && \
 "git clone https://github.com/scrooloose/syntastic.git
 "---------------------
+
+"----------------------
+"Bundle 'NerdTree'
+"cd ~/.vim/bundle
+"git clone https://github.com/scrooloose/nerdtree.git
+"----------------------
+"NERDTree settings
+"----------------------
+" set width
+let g:NERDTreeWinSize =30
+
+"----------------------
+"NERDTree Tabs
+"cd ~/.vim/bundle
+"git clone https://github.com/jistr/vim-nerdtree-tabs.git
+"----------------------
+" toggle with Ctrl+t
+"map <silent> <C-t> :call ToggleVExplorer()<CR>
+map <C-t> <plug>NERDTreeTabsToggle<CR>
 
 "-------------------
 "Bundle 'DelimitMate'
@@ -110,38 +129,38 @@ filetype plugin indent on
 "NerdTree type view with VExploreer
 "-------------------
 "Toggle Vexplore with Ctrl+t
-function! ToggleVExplorer()
-	if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
-  else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
-  endif
-endfunction
-map <silent> <C-t> :call ToggleVExplorer()<CR>
+"function! ToggleVExplorer()
+"	if exists("t:expl_buf_num")
+"      let expl_win_num = bufwinnr(t:expl_buf_num)
+"      if expl_win_num != -1
+"          let cur_win_nr = winnr()
+"          exec expl_win_num . 'wincmd w'
+"          close
+"          exec cur_win_nr . 'wincmd w'
+"          unlet t:expl_buf_num
+"      else
+"          unlet t:expl_buf_num
+"      endif
+"  else
+"      exec '1wincmd w'
+"      Vexplore
+"      let t:expl_buf_num = bufnr("%")
+"  endif
+"endfunction
+"map <silent> <C-t> :call ToggleVExplorer()<CR>
 " open file to the right in new tab.
-let g:netrw_browse_split = 3
+"let g:netrw_browse_split = 3
 "mouse support to switch between tabs
-set mouse=a
+"set mouse=a
 " file brwoser to left with width=30
-let g:netrw_altv = 1
-let g:netrw_winsize = 30
+"let g:netrw_altv = 1
+"let g:netrw_winsize = 30
 
 " Default to tree mode
-let g:netrw_liststyle=3
+"let g:netrw_liststyle=3
 
 " Change directory to the current buffer when opening files.
-set autochdir
+"set autochdir
 
 "------------------
 "set per dir vimrc
