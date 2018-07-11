@@ -1,11 +1,11 @@
 [user]
-	name = John Doe
-	email = johndoe@example.com
+	name = aperez
+	email = aperez@xip.io
 [core]
 	editor = vim
 [merge]
 	tool = vimdiff
 [push]
-	default = current
+	default = simple
 [color]
 	ui = auto

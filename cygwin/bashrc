@@ -1,0 +1,72 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if [ -f /etc/bash_completion ]; then
+ . /etc/bash_completion
+fi
+
+# User specific aliases and functions
+# don't put duplicate lines in the history. See bash(1) for more options                                                                  
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+#shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+# test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+ eval `dircolors`
+LS_COLORS="$LS_COLORS*.JPG=01;35:*.GIF=01;35:*.jpg=01;35:*.gif=01;35:*.jpeg=01;35:*.pcx=01;35:*.png=01;35:*.pnm=01;35:*.bz2=01;31:*.mpg=01;38:*.mpeg=01;38:*.MPG=01;38:*.MPEG=01;38:*.m4v=01;038:*.mp4=01;038:*.swf=01;038:*.avi=01;38:*.AVI=01;38:*.wmv=01;38:*.WMV=01;38:*.asf=01;38:*.ASF=01;38:*.mov=01;38:*.MOV=01;38:*.mp3=01;39:*.ogg=01;39:*.MP3=01;39:*.Mp3=01;39"
+
+export LS_OPTIONS='--color=auto'
+
+    alias ls='ls $LS_OPTIONS'
+    alias grep='grep $LS_OPTIONS'
+    alias fgrep='fgrep $LS_OPTIONS'
+    alias egrep='egrep $LS_OPTIONS'
+    alias ll='ls -lF'
+    alias la='ls -A'
+    alias l='ls -CF'
+fi
+
+export JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk1.8.0_92
+export M3_HOME=/opt/apache-maven-3.3.3
+export PATH=$PATH:$JAVA_HOME/bin:$M3_HOME/bin
+
+# High Intensty
+Color_Off="\[\033[0m\]"       # Text Reset"]"
+IBlack="\[\033[0;90m\]"       # Black
+IRed="\[\033[0;91m\]"         # Red
+IGreen="\[\033[0;92m\]"       # Green
+IYellow="\[\033[0;93m\]"      # Yellow
+IBlue="\[\033[0;94m\]"        # Blue
+IPurple="\[\033[0;95m\]"      # Purple
+ICyan="\[\033[0;96m\]"        # Cyan
+IWhite="\[\033[0;97m\]"       # White
+#$(git branch 2>/dev/null | grep '^*' | colrm 01 02)
+STATUS=$(git status --porcelain --branch 2>/dev/null)
+STAT=(`echo $STATUS | sed 's/ /\n/g'`)
+BRANCH=$(git branch 2>/dev/null | grep '^*' | colrm 01 02)
+#echo "----"
+#echo $STATUS
+#echo ${STAT[0]}
+#echo ${STAT[1]}
+#echo ${STAT[2]}
+#echo "----"
+
+
+VBOX="/cygdrive/c/Program Files/Oracle/VirtualBox"
+BIN="~/bin"
+export PATH=$VBOX:$BIN:$PATH
+export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IRed\$(git branch 2>/dev/null | grep '^*' | colrm 01 02)\$$IBlue)$IWhite$ "
+alias vagrant="GROUP=k8s vagrant"
+
