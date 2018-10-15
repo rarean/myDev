@@ -53,7 +53,7 @@ cd ~/.vim/bundle && \
 git clone https://github.com/Raimondi/delimitMate.git
 
 
-echo "=========> Set environmental variables for Java and Maven"
+#echo "=========> Set environmental variables for Java and Maven"
 echo 'export JAVA_HOME=/usr/java/jdk1.8.0_60' >> ~/.bashrc
 echo 'export M3_HOME=/opt/apache-maven-3.3.3' >> ~/.bashrc
 echo 'export PATH=$PATH:$JAVA_HOME/bin:$M3_HOME/bin' >> ~/.bashrc

@@ -1,14 +1,20 @@
-# CentOS 6.7 Dev Box setup
+# Ubuntu Setup
 
-* run setup.sh to install nodejs, java, maven & docker
+* run setup_deb.sh to install base packages
+
+# CentOS Setup
+
+* run setup_rhel.sh to install nodejs, java, maven & docker
+
+# Configure
 * run configure.sh to install vim bundles & copy config files
+
+
+## finish git setup
 
 * generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
 
 * ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
-
-## finish git setup
-
 * update username
 
 			git config --global user.name "John Doe"
