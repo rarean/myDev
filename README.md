@@ -1,20 +1,34 @@
-# CentOS 6.7 Dev Box setup
+# Setup local box with common Dev tools
 
-* run setup.sh to install nodejs, java, maven & docker
-* run configure.sh to install vim bundles & copy config files
+## Only Setup Bash
+Use this option for cygwin (windows) and Mac (OSX). Packages like NodeJs, Java,
+    ect. will need to be installed seperately.
+
+* symlink `cygwin/bashrc` to `~/.bashrc`
+* execute/run `cygwin/configure.sh` to setup pathogen and plugins
+* symlink `cygwin/vimrc` to `~/.vimrc`
+
+Some things like generating ssh keys and git setup below may work with cygwin
+or OSX, but other tutorials on how to do that exist elseware.
+
+## CentOS 6 & 7 Dev Box setup
+
+* run setup.sh as root or with sudo to install nodejs, java, maven & docker
+* run configure.sh as non-root user to install vim bundles & copy config files
+
+## Other items
 
 * generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
-
 * ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
 
-## finish git setup
+### Finish git setup
 
 * update username
 
-			git config --global user.name "John Doe"
-			git config --global user.email johndoe@example.com
+			git config --global user.name "Your Name"
+			git config --global user.email your.email@example.com
 
-## finish docker setup
+### Finish docker setup
 * Add yourself into the docker group
 
 			sudo gpasswd -a johndoe docker
@@ -32,7 +46,7 @@
 	logout and log back in again to run docker without sudo and get config
 	changes
 
-## Test install
+### Test install
 * docker version
 * java -version
 * mvn -v
@@ -42,3 +56,4 @@
 # Notes
 
 * start working
+* your mileage may vary for setup items

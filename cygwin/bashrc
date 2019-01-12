@@ -38,8 +38,15 @@ export LS_OPTIONS='--color=auto'
     alias l='ls -CF'
 fi
 
-export JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk1.8.0_92
-export M3_HOME=/opt/apache-maven-3.3.3
+unameOut="$(uname -s)"
+if [ ${unameOut} == "Darwin" ]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+  export M3_HOME=/Applications/apache-maven-3.6.0
+elif [ ${unameOut} == "CYGWIN" ]; then
+  export JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk1.8.0_92
+  export M3_HOME=/opt/apache-maven-3.6.0
+fi
+
 export PATH=$PATH:$JAVA_HOME/bin:$M3_HOME/bin
 
 # High Intensty
@@ -64,7 +71,9 @@ BRANCH=$(git branch 2>/dev/null | grep '^*' | colrm 01 02)
 #echo "----"
 
 
-VBOX="/cygdrive/c/Program Files/Oracle/VirtualBox"
+if [ ${unameOut} == "CYGWIN" ]; then
+  VBOX="/cygdrive/c/Program Files/Oracle/VirtualBox"
+fi
 BIN="~/bin"
 export PATH=$VBOX:$BIN:$PATH
 export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IRed\$(git branch 2>/dev/null | grep '^*' | colrm 01 02)\$$IBlue)$IWhite$ "
