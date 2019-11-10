@@ -1,3 +1,4 @@
+
 # Ubuntu Setup
 
 * run setup_deb.sh to install base packages
@@ -10,17 +11,17 @@
 * run configure.sh to install vim bundles & copy config files
 
 
-## finish git setup
+### Finish git setup
 
 * generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
 
 * ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
 * update username
 
-			git config --global user.name "John Doe"
-			git config --global user.email johndoe@example.com
+			git config --global user.name "Your Name"
+			git config --global user.email your.email@example.com
 
-## finish docker setup
+### Finish docker setup
 * Add yourself into the docker group
 
 			sudo gpasswd -a johndoe docker
@@ -38,7 +39,7 @@
 	logout and log back in again to run docker without sudo and get config
 	changes
 
-## Test install
+### Test install
 * docker version
 * java -version
 * mvn -v
@@ -48,3 +49,4 @@
 # Notes
 
 * start working
+* your mileage may vary for setup items
