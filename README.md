@@ -11,18 +11,22 @@ Use this option for cygwin (windows) and Mac (OSX). Packages like NodeJs, Java,
 Some things like generating ssh keys and git setup below may work with cygwin
 or OSX, but other tutorials on how to do that exist elseware.
 
-## CentOS 6 & 7 Dev Box setup
+# Ubuntu Setup
 
-* run setup.sh as root or with sudo to install nodejs, java, maven & docker
-* run configure.sh as non-root user to install vim bundles & copy config files
+* run setup_deb.sh to install base packages
 
-## Other items
+# CentOS Setup
 
-* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
-* ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
+* run setup_rhel.sh to install nodejs, java, maven & docker
+
+# Configure
+* run configure.sh to install vim bundles & copy config files
+
 
 ### Finish git setup
 
+* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
+* ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
 * update username
 
 			git config --global user.name "Your Name"

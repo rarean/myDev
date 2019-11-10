@@ -88,3 +88,4 @@ alias vagrant="GROUP=local-dev vagrant"
 export DATE=`date +"%Y-%m-%dT%T"`
 source <(kubectl completion bash)
 
+
