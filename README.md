@@ -1,28 +1,21 @@
-# Setup local box with common Dev tools
 
-## Only Setup Bash
-Use this option for cygwin (windows) and Mac (OSX). Packages like NodeJs, Java,
-    ect. will need to be installed seperately.
+# Ubuntu Setup
 
-* symlink `cygwin/bashrc` to `~/.bashrc`
-* execute/run `cygwin/configure.sh` to setup pathogen and plugins
-* symlink `cygwin/vimrc` to `~/.vimrc`
+* run setup_deb.sh to install base packages
 
-Some things like generating ssh keys and git setup below may work with cygwin
-or OSX, but other tutorials on how to do that exist elseware.
+# CentOS Setup
 
-## CentOS 6 & 7 Dev Box setup
+* run setup_rhel.sh to install nodejs, java, maven & docker
 
-* run setup.sh as root or with sudo to install nodejs, java, maven & docker
-* run configure.sh as non-root user to install vim bundles & copy config files
+# Configure
+* run configure.sh to install vim bundles & copy config files
 
-## Other items
-
-* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
-* ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
 
 ### Finish git setup
 
+* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
+
+* ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
 * update username
 
 			git config --global user.name "Your Name"
