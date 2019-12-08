@@ -1,16 +1,5 @@
 # Setup local box with common Dev tools
 
-## Only Setup Bash
-Use this option for cygwin (windows) and Mac (OSX). Packages like NodeJs, Java,
-    ect. will need to be installed seperately.
-
-* symlink `cygwin/bashrc` to `~/.bashrc`
-* execute/run `cygwin/configure.sh` to setup pathogen and plugins
-* symlink `cygwin/vimrc` to `~/.vimrc`
-
-Some things like generating ssh keys and git setup below may work with cygwin
-or OSX, but other tutorials on how to do that exist elseware.
-
 # Ubuntu Setup
 
 * run setup_deb.sh to install base packages
@@ -21,6 +10,21 @@ or OSX, but other tutorials on how to do that exist elseware.
 
 # Configure
 * run configure.sh to install vim bundles & copy config files
+
+## Bash Only Setup for cywing or others
+Use this option for cygwin (windows) and others like Mac (OSX) where you want more control. Packages like NodeJs, Java,
+    etc. will need to be installed seperately with package managers like
+    [Chocolatey](https://chocolatey.org/install) (windows) or [Homebrew](https://brew.sh/) (Mac)
+
+* execute/run `cygwin/configure.sh` to setup pathogen and plugins
+** Example: `~/projects/myDev/cygwin/configure.sh`
+* symlink `cygwin/bashrc` to `~/.bashrc`
+** Example: `ln -s ~/projects/myDev/cygwin/bashrc ~/.bashrc`
+* symlink `cygwin/vimrc` to `~/.vimrc`
+** Example: `ln -s ~/projects/myDev/cygwin/vimrc ~/.vimrc`
+
+Some things like generating ssh keys and git setup below may work with cygwin
+or OSX, but other tutorials on how to do that better exist elseware.
 
 
 ### Finish git setup
