@@ -8,13 +8,15 @@ function search(){
 }
 
 function getOS(){
-  OS="$(uname -s)"
+  OS="$(uname -s | cut -d '_' -f1)"
   if [[ $OS == "Darwin" ]]; then
     SYS="Mac"
   elif [[ $OS == "Cygwin" ]]; then
     SYS="Win"
   elif [[ $OS == "Linux" ]]; then
     SYS="Lin"
+  elif [[ $OS == "MINGW64" ]]; then
+    SYS="Win"
   else
     SYS="unknown"
   fi
