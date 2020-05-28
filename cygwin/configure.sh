@@ -1,8 +1,10 @@
 #!/bin/bash
 
-unameOut="$(uname -s)"
-echo "=========> make projects dir for our work"
-mkdir -p ~/projects
+unameOut="$(uname -s | cut -d '_' -f1)"
+if [[ ! -d ~/projects ]]; then
+  echo "=========> make projects dir for our work"
+  mkdir -p ~/projects
+fi
 
 echo "=========> install pathogen"
 mkdir -p ~/.vim/autoload ~/.vim/bundle
@@ -24,15 +26,15 @@ echo "=========> install Bundle 'DelimitMate'"
 cd ~/.vim/bundle && \
 git clone https://github.com/Raimondi/delimitMate.git
 
-echo "=========> add bash_profile if not exist to macOsX"
-if [ ! -f ~/.bash_profile && ${unameOut} == "Darwin" ]; then
+if [[ ! -f ~/.bash_profile && ${unameOut} == "Darwin" || ${unameOut} == "MINGW64" ]]; then
+echo "=========> add bash_profile "
   touch ~/.bash_profile
   echo 'if [ -r ~/.bashrc ]; then' >> ~/.bash_profile
   echo '  source ~/.bashrc' >> ~/.bash_profile
   echo 'fi' >> ~/.bash_profile
 fi
 
+if [[ ${unameOut} == "Darwin" ]]; then
 echo "=========> install ohMyZsh for macOsX"
-if [ ${unameOut} == "Darwin" ]; then
  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi

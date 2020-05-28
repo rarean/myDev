@@ -83,7 +83,7 @@ BIN="~/bin"
 export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IRed\$(git branch 2>/dev/null | grep '^*' | colrm 01 02)\$$IBlue)$IWhite$ "
 # Vagrant config info
 #alias vagrant="GROUP=local-dev vagrant"
-export DATE=`date +"%Y-%m-%dT%T"`
+#export DATE=`date +"%Y-%m-%dT%T"`
 #source <(kubectl completion bash)
 
-alias nucamp="cd ~/Desktop/NucampFolder"
+#alias nucamp="cd ~/Desktop/NucampFolder"

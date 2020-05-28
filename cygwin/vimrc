@@ -57,7 +57,7 @@ set autoindent				"Auto indent
 set smartindent				"Smart indent
 set smarttab
 set cindent
-set expandtab
+"set expandtab
 
 
 set listchars=tab:>-,trail:~,extends:>,precedes:<
