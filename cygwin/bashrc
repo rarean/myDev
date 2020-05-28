@@ -63,28 +63,18 @@ IBlue="\[\033[0;94m\]"        # Blue
 IPurple="\[\033[0;95m\]"      # Purple
 ICyan="\[\033[0;96m\]"        # Cyan
 IWhite="\[\033[0;97m\]"       # White
-#$(git branch 2>/dev/null | grep '^*' | colrm 01 02)
-STATUS=$(git status --porcelain --branch 2>/dev/null)
-STAT=(`echo $STATUS | sed 's/ /\n/g'`)
-BRANCH=$(git branch 2>/dev/null | grep '^*' | colrm 01 02)
-#echo "----"
-#echo $STATUS
-#echo ${STAT[0]}
-#echo ${STAT[1]}
-#echo ${STAT[2]}
-#echo "----"
 
+parse_git_branch(){
+  #git branch 2>/dev/null | grep '^*' | colrm 01 02
+  git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
+}
 
 if [ ${unameOut} == "CYGWIN" ]; then
   VBOX="/cygdrive/c/Program Files/Oracle/VirtualBox"
 fi
 BIN="~/bin"
 #export PATH=$VBOX:$BIN:$PATH
-parse_git_branch(){
-  #git branch 2>/dev/null | grep '^*' | colrm 01 02
-	git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ \1/'
-}
-export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IRed\$(parse_git_branch)\$$IBlue)$IWhite$ "
+export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IPurple\$(parse_git_branch)\$$IBlue)$IWhite$ "
 # Vagrant config info
 #alias vagrant="GROUP=local-dev vagrant"
 #export DATE=`date +"%Y-%m-%dT%T"`
