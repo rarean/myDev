@@ -2,9 +2,41 @@
 set nocompatible "to get all the vim-only options
 set encoding=utf-8 "default encoding to utf-8
 set fileencoding=utf-8  " The encoding written to file.
-filetype plugin indent on "enable filetype detection
-syntax enable "enable syntax highlighting
+"syntax enable "enable syntax highlighting
 syntax on
+if has("autocmd")
+  filetype plugin indent on "enable filetype detection
+endif
+
+"----------------------
+"vim-plug
+"----------------------
+call plug#begin('~/.vim/plugged')
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+Plug 'preservim/nerdtree'
+Plug 'tomasiser/vim-code-dark'
+Plug 'scrooloose/syntastic'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tpope/vim-surround'
+Plug 'raimondi/delimitmate'
+Plug 'vim-airline/vim-airline'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+call plug#end()
+
+"----------------------
+"Enable Pathogen plugins
+"----------------------
+execute pathogen#infect()
+
+"set colorscheme
+colorscheme codedark"set mouse=a
+set mouse=a
+"let base16colorspace=256
 
 "better indentation for visual mode
 vnoremap < <gv
@@ -14,7 +46,7 @@ vnoremap > >gv
 set number
 set nowrap
 "set colorcolumn=80 "add column default
-highlight ColorColun ctermbg=233 "make color column red
+"highlight ColorColun ctermbg=233 "make color column red
 
 " linebreak on 79 char
 "set lbr
@@ -22,12 +54,9 @@ set tw=79
 
 "show whitespace
 "MUST be inserted before colorscheme
-autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-au InsertLeave * match ExtraWhitespace /\s\+$/
+"autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+"au InsertLeave * match ExtraWhitespace /\s\+$/
 
-"set colorscheme
-colorscheme default
-set mouse=a
 
 set incsearch " smart searching
 set ignorecase " ignore case when searching
@@ -83,11 +112,6 @@ set statusline=\ %F%m%r%h\
 map <leader>ss :setlocal spell!<cr>
 
 "----------------------
-"Enable Pathogen plugins
-"----------------------
-execute pathogen#infect()
-
-"----------------------
 "NERDTree settings
 "----------------------
 " set width
@@ -115,3 +139,34 @@ set secure
 let g:prettier#quickfix_enabled = 0 "disable quickfix
 let g:prettier#config#html_whitespace_sensitivity = 'css'
 
+" set filetypes for typescript
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+
+"----------------------
+"set jsx-tag colors
+"----------------------
+" dark red
+hi tsxTagName guifg=#E06C75
+
+" orange
+hi tsxCloseString guifg=#F99575
+hi tsxCloseTag guifg=#F99575
+hi tsxCloseTagName guifg=#F99575
+hi tsxAttributeBraces guifg=#F99575
+hi tsxEqual guifg=#F99575
+
+" yellow
+hi tsxAttrib guifg=#F8BD7F cterm=italic
+
+"----------------------
+" ES6 items
+"----------------------
+"let &l:include = 'from\|require'
+" make Vim use ES6 export statements as define statements
+"let &l:define = '\v(export\s+(default\s+)?)?(var|let|const|(async\s+)?function|class)|export\s+'
+" allow Vim to parse path aliases such as ~/components or @/components
+" which are common in Vue projects
+"setlocal isfname+=@-@
+"setlocal suffixesadd+=.vue
+"let &l:includeexpr = "path#resolve_alias(['~', '@'], ['src', 'app'], v:fname)"
+:command P Prettier

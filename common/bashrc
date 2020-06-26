@@ -81,3 +81,8 @@ export PS1="$ICyan\u $IWhite@$IYellow\W$IBlue git:($IRed\$(git branch 2>/dev/nul
 #alias vagrant="GROUP=local-dev vagrant"
 #export DATE=`date +"%Y-%m-%dT%T"`
 
+#opn last modified files in vi
+alias modsVi='vim -O $(git ls-files . --modified --exclude-standard --others)'
+
+#open last modified files in vscode
+alias modsVs='code $(git ls-files . --modified --exclude-standard --others)'

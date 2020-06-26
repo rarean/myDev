@@ -4,7 +4,7 @@ source ./scripts/adders.sh
 source ./scripts/chkers.sh
 source ./scripts/util.sh
 
-function chcoPkgInstaller(){
+function chocoPkgInstaller(){
   PKGS=${1}
   echo "install packages: ${PKGS[@]}"
 }
