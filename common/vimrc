@@ -1,0 +1,178 @@
+" Common Vim Settings
+set nocompatible "to get all the vim-only options
+set encoding=utf-8 "default encoding to utf-8
+set fileencoding=utf-8  " The encoding written to file.
+"syntax enable "enable syntax highlighting
+syntax on
+if has("autocmd")
+  filetype plugin indent on "enable filetype detection
+endif
+
+"----------------------
+"Enable Pathogen plugins
+" primarily for NerdTre-tabs
+"----------------------
+execute pathogen#infect()
+
+"----------------------
+"vim-plug
+"----------------------
+call plug#begin('~/.vim/plugged')
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+Plug 'preservim/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'tomasiser/vim-code-dark'
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-surround'
+Plug 'raimondi/delimitmate'
+Plug 'vim-airline/vim-airline'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+call plug#end()
+
+"show whitespace
+"MUST be inserted before colorscheme
+"autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+"au InsertLeave * match ExtraWhitespace /\s\+$/
+
+"set colorscheme
+set t_ut=
+colorscheme codedark
+"set codedark for vim-airline
+let g:airline_theme = 'codedark'
+let g:codedark_term256=1
+
+"enable mouse w/nerdtree
+set mouse=a
+"let base16colorspace=256
+
+"better indentation for visual mode
+vnoremap < <gv
+vnoremap > >gv
+
+" some basic settings
+set number
+set nowrap
+
+" linebreak on 79 char
+"set lbr
+set tw=79
+
+set incsearch " smart searching
+set ignorecase " ignore case when searching
+set smartcase "unless there's a capital letter there
+set hlsearch " highlight search results
+set incsearch "higlight search matches as i type
+set scrolloff=3 " set three lines around cursor at all times
+set wildmenu "better comand line completion
+set wildmode=longest,list " wildmode for tab behavior
+"set backupdir =~/.vim/backup
+
+" make backspace work like it should
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+set lazyredraw " performance config
+set magic " for regular expressions
+
+" show matching brackets
+set showmatch
+set mat=2
+
+" set indents
+set tabstop=2
+set shiftwidth=2
+set autoindent				"Auto indent
+set smartindent				"Smart indent
+"set smarttab
+"set cindent
+set expandtab
+
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+set list
+
+" retrun to last edit position when opening files
+autocmd BufReadPost *
+  \if line("'\'") > 0 && line("'\'") <= line("$") |
+  \  exe "normal! g`\"" |
+  \endif
+" remember info about open buffers on close
+set viminfo^=%
+
+""""""""""""""""""""""""""""""
+" => Status line
+""""""""""""""""""""""""""""""
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+set statusline=\ %F%m%r%h\
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+"----------------------
+"NERDTree settings
+"----------------------
+" set width
+let g:NERDTreeWinSize =30
+
+"----------------------
+"NERDTree Tabs
+"----------------------
+" toggle with Ctrl+t
+"map <silent> <C-t> :call ToggleVExplorer()<CR>
+map <C-t> <plug>NERDTreeTabsToggle<CR>
+" Change directory to the current buffer when opening files.
+"set autochdir
+
+"------------------
+"set per dir vimrc
+set exrc
+set secure
+"-----------------
+
+"----------------------
+"vim-prettier
+"----------------------
+let g:prettier#quickfix_enabled = 0 "disable quickfix
+let g:prettier#config#html_whitespace_sensitivity = 'css'
+:command P Prettier
+
+" set filetypes for typescript
+"autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+
+"----------------------
+"set jsx-tag colors
+"----------------------
+" dark red
+"hi tsxTagName guifg=#E06C75
+
+" orange
+"hi tsxCloseString guifg=#F99575
+"hi tsxCloseTag guifg=#F99575
+"hi tsxCloseTagName guifg=#F99575
+"hi tsxAttributeBraces guifg=#F99575
+"hi tsxEqual guifg=#F99575
+
+" yellow
+"hi tsxAttrib guifg=#F8BD7F cterm=italic
+
+"----------------------
+" ES6 items
+"----------------------
+"let &l:include = 'from\|require'
+" make Vim use ES6 export statements as define statements
+"let &l:define = '\v(export\s+(default\s+)?)?(var|let|const|(async\s+)?function|class)|export\s+'
+" allow Vim to parse path aliases such as ~/components or @/components
+" which are common in Vue projects
+"setlocal isfname+=@-@
+"setlocal suffixesadd+=.vue
+"let &l:includeexpr = path#resolve_alias(['~', '@'], ['src', 'app'], v:fname)"
+
+" fix utf-8 ambiguous characters
+set t_u7=
