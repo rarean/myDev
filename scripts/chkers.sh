@@ -18,24 +18,40 @@ function chkZsh(){
 function chkBrew(){
   [[ `command -v brew` ]] && echo true || echo false
 }
-function checkJq(){
+function chkJq(){
   [[ `command -v jq` ]] && echo true || echo false
 }
 function chkNvm(){
+  source $(brew --prefix nvm)/nvm.sh
   [[ `command -v nvm` ]] && echo true || echo false
 }
 function chkNpm(){
+  source $(brew --prefix nvm)/nvm.sh
   [[ `command -v npm` ]] && echo true || echo false
 }
 function chkMongo(){
+  source $(brew --prefix nvm)/nvm.sh
   [[ `command -v npm` ]] && echo true || echo false
 }
 function chkNode(){
+  source $(brew --prefix nvm)/nvm.sh
   [[ `command -v node` ]] && echo true || echo false
 }
 function chkReact(){
-  REACT=$(npm list -g create-react-app | grep react | cut -d '-' -f2)
+  source $(brew --prefix nvm)/nvm.sh
+  REACT=$(npm list -g --depth 0 create-react-app | grep react | cut -d '-' -f2)
   [[ $REACT != "react" ]] && echo true || echo false
+}
+function chkAwsCli(){
+  source $(brew --prefix nvm)/nvm.sh
+  SDK=$(npm ls -g --depth 0 | grep aws-sdk | cut -d ' ' -f2 | cut -d '@' -f1)
+  [[ $SDK != "aws-sdk" ]] && echo true || echo false
+}
+function chkAwsSam(){
+  [[ `command -v sam` ]] && echo true || echo false
+}
+function chkAwsIam(){
+  [[ `command -v aws-iam-authenticator` ]] && echo true || echo false
 }
 function chkShUnit(){
   [[ `command -v shunit2` ]] && echo true || echo false
@@ -45,6 +61,9 @@ function chkHelm(){
 }
 function chkKubectl(){
   [[ `command -v kubectl` ]] && echo true || echo false
+}
+function chkMvn(){
+  [[ `command -v mvn` ]] && echo true || echo false
 }
 function chkKubeConfig(){
   [[ `echo $KUBECONFIG` ]] && echo $KUBECONFIG || echo false

@@ -9,6 +9,12 @@ if has("autocmd")
 endif
 
 "----------------------
+"Enable Pathogen plugins
+" primarily for NerdTre-tabs
+"----------------------
+execute pathogen#infect()
+
+"----------------------
 "vim-plug
 "----------------------
 call plug#begin('~/.vim/plugged')
@@ -19,22 +25,28 @@ Plug 'peitalin/vim-jsx-typescript'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'jparise/vim-graphql'
 Plug 'preservim/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tomasiser/vim-code-dark'
 Plug 'scrooloose/syntastic'
-Plug 'jistr/vim-nerdtree-tabs'
 Plug 'tpope/vim-surround'
 Plug 'raimondi/delimitmate'
 Plug 'vim-airline/vim-airline'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 call plug#end()
 
-"----------------------
-"Enable Pathogen plugins
-"----------------------
-execute pathogen#infect()
+"show whitespace
+"MUST be inserted before colorscheme
+"autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+"au InsertLeave * match ExtraWhitespace /\s\+$/
 
 "set colorscheme
-colorscheme codedark"set mouse=a
+set t_ut=
+colorscheme codedark
+"set codedark for vim-airline
+let g:airline_theme = 'codedark'
+let g:codedark_term256=1
+
+"enable mouse w/nerdtree
 set mouse=a
 "let base16colorspace=256
 
@@ -45,18 +57,10 @@ vnoremap > >gv
 " some basic settings
 set number
 set nowrap
-"set colorcolumn=80 "add column default
-"highlight ColorColun ctermbg=233 "make color column red
 
 " linebreak on 79 char
 "set lbr
 set tw=79
-
-"show whitespace
-"MUST be inserted before colorscheme
-"autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
-"au InsertLeave * match ExtraWhitespace /\s\+$/
-
 
 set incsearch " smart searching
 set ignorecase " ignore case when searching
@@ -123,7 +127,6 @@ let g:NERDTreeWinSize =30
 " toggle with Ctrl+t
 "map <silent> <C-t> :call ToggleVExplorer()<CR>
 map <C-t> <plug>NERDTreeTabsToggle<CR>
-
 " Change directory to the current buffer when opening files.
 "set autochdir
 
@@ -138,25 +141,26 @@ set secure
 "----------------------
 let g:prettier#quickfix_enabled = 0 "disable quickfix
 let g:prettier#config#html_whitespace_sensitivity = 'css'
+:command P Prettier
 
 " set filetypes for typescript
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
+"autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 
 "----------------------
 "set jsx-tag colors
 "----------------------
 " dark red
-hi tsxTagName guifg=#E06C75
+"hi tsxTagName guifg=#E06C75
 
 " orange
-hi tsxCloseString guifg=#F99575
-hi tsxCloseTag guifg=#F99575
-hi tsxCloseTagName guifg=#F99575
-hi tsxAttributeBraces guifg=#F99575
-hi tsxEqual guifg=#F99575
+"hi tsxCloseString guifg=#F99575
+"hi tsxCloseTag guifg=#F99575
+"hi tsxCloseTagName guifg=#F99575
+"hi tsxAttributeBraces guifg=#F99575
+"hi tsxEqual guifg=#F99575
 
 " yellow
-hi tsxAttrib guifg=#F8BD7F cterm=italic
+"hi tsxAttrib guifg=#F8BD7F cterm=italic
 
 "----------------------
 " ES6 items
@@ -168,5 +172,7 @@ hi tsxAttrib guifg=#F8BD7F cterm=italic
 " which are common in Vue projects
 "setlocal isfname+=@-@
 "setlocal suffixesadd+=.vue
-"let &l:includeexpr = "path#resolve_alias(['~', '@'], ['src', 'app'], v:fname)"
-:command P Prettier
+"let &l:includeexpr = path#resolve_alias(['~', '@'], ['src', 'app'], v:fname)"
+
+" fix utf-8 ambiguous characters
+set t_u7=

@@ -83,4 +83,10 @@ fi
 export NVM_DIR=~/.nvm
 source $(brew --prefix nvm)/nvm.sh
 
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+      autoload -Uz compinit
+        compinit
+fi
 

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 source ./scripts/chkers.sh
 source ./scripts/util.sh
 
@@ -8,10 +7,8 @@ function addBrew(){
     #already installed
     brew update && brew cleanup
     return
-  elif [[ $(getOS) == "Mac" ]]; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  elif [[ $(getOS) == "Lin" ]]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+  elif [[ $(getOS) != "Win" ]]; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
   else
     echo "Sorry can't install homebrew"
     exit 1
@@ -21,6 +18,9 @@ function addNvm(){
   if [[ $(chkNvm) = true ]]; then
     #already installed
     brew upgrade nvm
+    if [[ ! -d ~/.nvm ]]; then
+      mkdir ~/.nvm
+    fi
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
@@ -29,19 +29,60 @@ function addNvm(){
   else
     [[ `brew ls --versions nvm` ]] && return || brew install nvm
   fi
+  if [[ ! -d ~/.nvm ]]; then
+    mkdir ~/.nvm
+  fi
 }
 function addNode(){
   addNvm
-  source /usr/local/opt/nvm/nvm.sh
+  export NVM_DIR=~/.nvm
+  source $(brew --prefix nvm)/nvm.sh
   VER=$(nvm version)
-  if [[ $VER != "v12.9.0" ]]; then
-    nvm install 12.9.0 && nvm use 12.9.0
+  if [[ $VER != "v10.15.3" ]]; then
+    nvm install 10.15.3 && nvm use 10.15.3
     echo "you can add other versions with 'nvm install x.x.x && nvm use x.x.x'"
   fi
-  echo "USING NodeJs $VER"
+}
+function addAwsCli(){
+  if [[ $(chkAwsCli) = true ]]; then
+    #already installed
+    return
+  elif [[ $(chkNpm) = false ]]; then
+    addNode
+  else
+    export NVM_DIR=~/.nvm
+    source $(brew --prefix nvm)/nvm.sh
+    npm install -g aws-sdk
+  fi
+}
+function addAwsSam(){
+  if [[ $(chkAwsSam) = true ]]; then
+    #already installed
+    brew upgrade aws-sam-cli
+    return
+  elif [[ $(chkBrew) = false ]]; then
+    echo "Sorry requires homebrew first"
+    addBrew
+    addAwsSam
+  else
+    [[ `brew ls --versions aws-sam-cli` ]] && return || brew install aws-sam-cli
+  fi
+}
+function addAwsIam(){
+  if [[ $(chkAwsIam) = true ]]; then
+    #already installed
+    brew upgrade aws-iam-authenticator
+    return
+  elif [[ $(chkBrew) = false ]]; then
+    echo "Sorry requires homebrew first"
+    addBrew
+    addAwsIam
+  else
+    [[ `brew ls --versions aws-iam-authenticator` ]] && return || brew install aws-iam-authenticator
+  fi
 }
 function addJq(){
-  if [[ $(checkJq) = true ]]; then
+  if [[ $(chkJq) = true ]]; then
     #already installed
     brew upgrade jq
     return
@@ -51,6 +92,15 @@ function addJq(){
     addJq
   else
     [[ `brew ls --versions jq` ]] && return || brew install jq
+  fi
+}
+function addMvn(){
+  if [[ $(chkMvn) = true ]]; then
+    #already installed
+    brew upgrade maven
+    return
+  else
+    [[ `brew ls --versions maven` ]] && return || brew install maven
   fi
 }
 function addShUnit(){
@@ -93,10 +143,10 @@ function addKubectl(){
   fi
 }
 function addOhMyZsh(){
-  echo "=========> install ohMyZsh"
-  #if [ ${unameOut} == "Darwin" ]; then
-  # sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-  #fi
+  if [[ $(getOS) != "Win" && ! -d ~/.oh-my-zsh ]]; then
+   echo "=========> install ohMyZsh"
+   sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  fi
 }
 function addProjectsDir(){
   if [[ ! -d ~/projects ]]; then
@@ -117,66 +167,29 @@ function addVim(){
   fi
 }
 function addVimPlugins(){
-  echo
-  addVim
-  echo "Using Pathogen to manage your plugins"
-  echo "=========> install pathogen"
-  mkdir -p ~/.vim/autoload ~/.vim/bundle
-  curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-  echo "Now you can install any plugin into a .vim/bundle/plugin-name/ folder"
-  echo
-  echo "=========> install Bundle 'Syntastic'"
-  cd ~/.vim/bundle && \
-  git clone https://github.com/scrooloose/syntastic.git
-  echo
-  echo "=========> install Bundle 'NerdTree'"
-  cd ~/.vim/bundle && \
-  git clone https://github.com/scrooloose/nerdtree.git
-  echo
-  echo "=========> install Bundle 'NerdTree-tabs'"
-  cd ~/.vim/bundle && \
-  git clone https://github.com/jistr/vim-nerdtree-tabs.git
-  echo
-  echo "=========> install Bundle 'DelimitMate'"
-  cd ~/.vim/bundle && \
-  git clone https://github.com/Raimondi/delimitMate.git
-  echo
-  echo "=========> install Bundle 'vim-prettier'"
-  cd ~/.vim/bundle && \
-  git clone https://github.com/prettier/vim-prettier.git
+  #use https://github.com/junegunn/vim-plug
+  if [[ -f ~/.vimrc ]];then
+    echo "backup current vim settings"
+    mv ~/.vimrc ~/.vimrc.bak
+  fi
+  ln -sf $(pwd)/common/vimrc ~/.vimrc
+
+  if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  fi
 }
 function addBashrcToProfile(){
-  if [[ ! -f ~/.bashrc ]]; then
+  if [[ ! -f ~/.bashrc && $(getOS) == "Mac" ]]; then
+    touch ~/.bashrc
     echo 'if [ -r ~/.bashrc ]; then' >> ~/.bash_profile
     echo '  source ~/.bashrc' >> ~/.bash_profile
     echo 'fi' >> ~/.bash_profile
     echo ' ' >> ~/.bash_profile
   fi
-}
-function addGit(){
-  if [[ $(chkGit) = true ]]; then
-    #already installed
-    brew upgrade git
-    return
-  elif [[ $(chkBrew) = false ]]; then
-    echo "Sorry requires homebrew first"
-    addBrew
-    addGit
-  else
-    [[ `brew ls --versions git` ]] && return || brew install git
-  fi
-}
-function addCurl(){
-  if [[ $(chkCurl) = true ]]; then
-    #already installed
-    brew upgrade curl
-    return
-  elif [[ $(chkBrew) = false ]]; then
-    echo "Sorry requires homebrew first"
-    addBrew
-    addCurl
-  else
-    [[ `brew ls --versions curl` ]] && return || brew install curl
+  if [[ -f ~/.bashrc ]]; then
+    echo "backup current settings"
+    mv ~/.bashrc ~/.bashrc.bak
+    ln -sf $(pwd)/common/bashrc ~/.bashrc
   fi
 }
 function addZsh(){
@@ -237,13 +250,55 @@ function addReact(){
     npm install -g create-react-app
   fi
 }
+function addZshrc(){
+  if [[ -f ~/.zshrc ]]; then
+    echo "backup current settings"
+    mv ~/.zshrc ~/.zshrc.bak
+  fi
+  ln -sf $(pwd)/common/zshrc ~/.zshrc
+}
 function addCommon(){
+  if [[ $(chkGit) = false ]]; then
+    echo "git is a prerequisite. Please install first"
+    exit 1
+  fi
+  if [[ $(chkCurl) = false ]]; then
+    echo "curl is a prerequisite. Please install first"
+    exit 1
+  fi
+
   addBashrcToProfile
   addProjectsDir
-  addGit
-  addCurl
   addZsh
+  addOhMyZsh
   addJq
   addVim
   addVimPlugins
+  addZshrc
+}
+function addAWS(){
+  addNode
+  addAwsCli
+  addAwsSam
+  addAwsIam
+}
+function addJava8(){
+  if [[ $(getOS) == "Mac" ]]; then
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+  elif [[ $(getOS) == "Lin" ]]; then
+    echo "You will need sudo access for this: "
+    if [[ $(getDistro) == "Deb" ]]; then
+      sudo apt-get -y install openjdk-8-jdk
+      sudo apt-get -y install openjdk-8-jre
+    elif [[ $(getDistro) == "RHEL" ]]; then
+      su -c "yum -y install java-1.8.0-openjdk-devel"
+      su -c "yum -y install java-1.8.0-openjdk"
+    else
+      echo "Your distro is not supported with this method"
+      echo "You will need to install java8 manually"
+    fi
+  else
+    echo "You will need to install Java8 manually"
+  fi
 }

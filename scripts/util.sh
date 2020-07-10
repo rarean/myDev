@@ -22,3 +22,18 @@ function getOS(){
   fi
   echo $SYS
 }
+function getDistro(){
+  ID="$(cat /etc/*-release | grep DISTRIB_ID | cut -d "=" -f2)"
+  if [[ $ID == "Ubuntu" ]]; then
+    DIST="Deb"
+  elif [[ $ID == "Debian" ]]; then
+    DIST="Deb"
+  elif [[ $ID == "Red" ]]; then
+    DIST="RHEL"
+  elif [[ $ID == "CentOS" ]]; then
+    DIST="RHEL"
+  else
+    DIST="unknown"
+  fi
+  echo $DIST
+}

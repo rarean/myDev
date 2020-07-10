@@ -1,23 +1,29 @@
 # Setup local box with common Dev tools
 
-# Ubuntu Setup
+# TL;DR
+PREREQUISITES
+curl & git
 
-* run setup_deb.sh to install base packages
+## Mac || Linux (Ubuntu/CentOS) Setup
+Uses [Homebrew](https://brew.sh/) to setup Mac & Linux systems
 
-# CentOS Setup
+run `./setup.sh` to install packages
+```bash
+$ ./setup.sh
+1) ReactFrontend   3) ReactFullstack  5) Java8           7) Quit
+2) MongoDB         4) AWS             6) K8S
+Please enter your choice:
+```
+## Windows
+It's recommended to use [Chocolatey](https://chocolatey.org/) to install
+packages. Some attemp to do this is included but not documented
 
-* run setup_rhel.sh to install nodejs, java, maven & docker
 
-# Configure
-* run configure.sh to install vim bundles & copy config files
+# Bash Only Setup
+Use this option for cygwin or gitBash (windows) and others where you want more control and just care about bash terminal.
+Packages like NodeJs, Java, etc. will need to be installed seperately
+Checkout: [Chocolatey](https://chocolatey.org/install) (windows) or [Homebrew](https://brew.sh/) (Mac/Linux)
 
-## Bash Only Setup for cywing or others
-Use this option for cygwin (windows) and others like Mac (OSX) where you want more control. Packages like NodeJs, Java,
-    etc. will need to be installed seperately with package managers like
-    [Chocolatey](https://chocolatey.org/install) (windows) or [Homebrew](https://brew.sh/) (Mac)
-
-* execute/run `cygwin/configure.sh` to setup pathogen and plugins
-** Example: `~/projects/myDev/cygwin/configure.sh`
 * symlink `cygwin/bashrc` to `~/.bashrc`
 ** Example: `ln -s ~/projects/myDev/cygwin/bashrc ~/.bashrc`
 * symlink `cygwin/vimrc` to `~/.vimrc`
@@ -27,41 +33,22 @@ Some things like generating ssh keys and git setup below may work with cygwin
 or OSX, but other tutorials on how to do that better exist elseware.
 
 
-### Finish git setup
+# Finish setup
+## Vim
+* open vim to any file e.g. `vi temp.txt`
+* install plugins from inside vim `:PlugIntall` see https://github.com/junegunn/vim-plug
+* close without saving and your set
 
-* generate ssh keys with ssh-keygen -t rsa -C "johndoe@example.com"
-* ensure maven settings are correct in /opt/apache-maven-3.3.3/conf/settings.xml
-* update username
 
-			git config --global user.name "Your Name"
-			git config --global user.email your.email@example.com
+## Git
+* generate ssh keys with `ssh-keygen -t rsa -C "your.email@example.com"`
+* update global settings
 
-### Finish docker setup
-* Add yourself into the docker group
+```bash
+git config --global user.name "Your Name"
+git config --global user.email your.email@example.com
+git config --global core.editor vim
+git config --global push.default simple
 
-			sudo gpasswd -a johndoe docker
-			sudo usermod -aG docker your_username
+```
 
-* Add following line to Docker configuration file
-
-			vi /etc/sysconfig/docker
-			other_args=" -H tcp://127.0.0.1:4243 -H unix:///var/run/docker.sock"
-
-* Start/Restart docker
-
-			sudo service docker restart
-
-	logout and log back in again to run docker without sudo and get config
-	changes
-
-### Test install
-* docker version
-* java -version
-* mvn -v
-* node -v
-* npm -v
-
-# Notes
-
-* start working
-* your mileage may vary for setup items
