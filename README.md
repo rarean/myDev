@@ -34,12 +34,6 @@ or OSX, but other tutorials on how to do that better exist elseware.
 
 
 # Finish setup
-## Vim
-* open vim to any file e.g. `vi temp.txt`
-* install plugins from inside vim `:PlugIntall` see https://github.com/junegunn/vim-plug
-* close without saving and your set
-
-
 ## Git
 * generate ssh keys with `ssh-keygen -t rsa -C "your.email@example.com"`
 * update global settings
