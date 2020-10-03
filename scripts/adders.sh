@@ -58,6 +58,7 @@ function addAwsCli(){
 function addAwsSam(){
   if [[ $(chkAwsSam) = true ]]; then
     #already installed
+    brew tap aws/tap
     brew upgrade aws-sam-cli
     return
   elif [[ $(chkBrew) = false ]]; then
@@ -65,6 +66,7 @@ function addAwsSam(){
     addBrew
     addAwsSam
   else
+    brew tap aws/tap
     [[ `brew ls --versions aws-sam-cli` ]] && return || brew install aws-sam-cli
   fi
 }
@@ -177,6 +179,8 @@ function addVimPlugins(){
   if [[ ! -f ~/.vim/autoload/plug.vim ]]; then
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   fi
+  #Install plugins
+  vim +PlugInstall +qall
 }
 function addBashrcToProfile(){
   if [[ ! -f ~/.bashrc && $(getOS) == "Mac" ]]; then
