@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
+source ./scripts/chkers.sh
 source ./scripts/common.sh
  #load mock functions
-source ./tests/mocks.sh
+source ./test/mocks.sh
 #ensure we have shunit installed for testShoulds
-if [[ $(chkShUnit) = false ]]; then
-  addShUnit
-fi
+#if [[ $(chkShUnit) = false ]]; then
+#  addShUnit
+#fi
 
 #expand aliases for mocks & stubs
 shopt -s expand_aliases
@@ -22,25 +23,35 @@ testShouldCheckBrewNotExist(){
   assertEquals 'HomeBrew is not installed' false $(chkBrew)
 }
 
-testShouldChekVaultExist(){
-  alias vault='bash'
-  assertEquals 'Vault is installed' true $(chkVault)
-}
+#testShouldChekVaultExist(){
+#  alias vault='bash'
+#  assertEquals 'Vault is installed' true $(chkVault)
+#}
+#
+#testShouldCheckVaultNotExist(){
+#  alias command='command &>/dev/null' #stub out command
+#  assertEquals 'Vault is not installed' false $(chkVault)
+#}
 
-testShouldCheckVaultNotExist(){
-  alias command='command &>/dev/null' #stub out command
-  assertEquals 'Vault is not installed' false $(chkVault)
-}
+#testShouldCheckVaultUrlSet(){
+#  export VAULT_ADDR="http://my.com"
+#  assertEquals 'VaultUrl Env is set' "http://my.com" $(chkVaultUrl)
+#}
+#
+#testShouldCheckVaultUrlNotSet(){
+#  unset VAULT_ADDR
+#  assertEquals 'VaultUrl is not set' false "$(chkVaultUrl)"
+#}
 
-testShouldChekAwsCliExist(){
-  alias awscli='bash'
-  assertEquals 'AwsCli is installed' true $(chkAwsCli)
-}
-
-testShouldCheckAwsCliNotExist(){
-  alias command='command &>/dev/null' #stub out command
-  assertEquals 'AwsCli is not installed' false $(chkAwsCli)
-}
+#testShouldChekAwsCliExist(){
+#  alias awscli='bash'
+#  assertEquals 'AwsCli is installed' true $(chkAwsCli)
+#}
+#
+#testShouldCheckAwsCliNotExist(){
+#  alias command='command &>/dev/null' #stub out command
+#  assertEquals 'AwsCli is not installed' false $(chkAwsCli)
+#}
 
 testShouldChekAwsIamExist(){
   alias aws-iam-authenticator='bash'
@@ -54,12 +65,12 @@ testShouldCheckAwsIamNotExist(){
 
 testShouldChekJqExist(){
   alias jq='bash'
-  assertEquals 'Jq is installed' true $(checkJq)
+  assertEquals 'Jq is installed' true $(chkJq)
 }
 
 testShouldCheckJqNotExist(){
   alias command='command &>/dev/null' #stub out command
-  assertEquals 'Jq is not installed' false $(checkJq)
+  assertEquals 'Jq is not installed' false $(chkJq)
 }
 
 testShouldCheckHelmExist(){
@@ -92,25 +103,15 @@ testShouldCheckKubeConfigNotSet(){
   assertEquals 'KubeConfig is not set' false "$(chkKubeConfig)"
 }
 
-testShouldCheckVaultUrlSet(){
-  export VAULT_ADDR="http://my.com"
-  assertEquals 'VaultUrl Env is set' "http://my.com" $(chkVaultUrl)
-}
-
-testShouldCheckVaultUrlNotSet(){
-  unset VAULT_ADDR
-  assertEquals 'VaultUrl is not set' false "$(chkVaultUrl)"
-}
-
-testShouldFindTxtInPofile(){
-  assertEquals 'Find hello in file' true "$(search "source" ${MOCK_PROFILE})"
-}
-testShouldFindHelloInPofile(){
-  assertEquals 'Find hello in file' true "$(search "hello" ${MOCK_PROFILE})"
-}
-testShouldNotFindTxtInPofile(){
-  assertEquals 'Not find foo in file' false "$(search "foo" ${MOCK_PROFILE})"
-}
+#testShouldFindTxtInPofile(){
+#  assertEquals 'Find hello in file' true "$(search "source" ${MOCK_PROFILE})"
+#}
+#testShouldFindHelloInPofile(){
+#  assertEquals 'Find hello in file' true "$(search "hello" ${MOCK_PROFILE})"
+#}
+#testShouldNotFindTxtInPofile(){
+#  assertEquals 'Not find foo in file' false "$(search "foo" ${MOCK_PROFILE})"
+#}
 
 #runs before each test
 setUp(){
