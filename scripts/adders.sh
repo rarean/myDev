@@ -2,6 +2,16 @@
 source ./scripts/chkers.sh
 source ./scripts/util.sh
 
+function addDotNet31(){
+  if [[ $(chkNet31) = true ]]; then
+    echo "dotNet already installed"
+    return
+  else
+    # see https://dev.to/jeremyabbott/how-i-setup-my-new-mac-16gi
+    echo `./scripts/dotnet-install.sh -c LTS # 3.1`
+  fi
+}
+
 function addBrew(){
   if [[ $(chkBrew) = true ]]; then
     #already installed

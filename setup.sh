@@ -4,9 +4,13 @@ source ./scripts/common.sh
 source ./scripts/installers.sh
 
 PWD="$(pwd)"
+# run projectChoise first from scripts/common
 PKGS=( $(projectChoise) )
 OS=$(getOS)
 
+if [[ ${#PKGS[*]} == 0 ]]; then
+  exit
+fi
 #echo "Packages to install: ${#PKGS[*]}"
 while [[ $OS != "" ]] #some type of OS
 do
