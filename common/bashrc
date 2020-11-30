@@ -69,7 +69,18 @@ alias modsVi='vim -O $(git ls-files . --modified --exclude-standard --others)'
 #open last modified files in vscode
 alias modsVs='code $(git ls-files . --modified --exclude-standard --others)'
 
+# enable nvm
 export NVM_DIR="~/.nvm"
+source $(brew --prefix nvm)/nvm.sh
+
+# enable dotnet
+if [ -d "$HOME/.dotnet" ] ; then
+    export PATH="$PATH:$HOME/.dotnet"
+fi
+
+if [ -d "$HOME/.dotnet/tools" ] ; then
+    export PATH="$PATH:$HOME/.dotnet/tools"
+fi
 #BIN="~/bin"
 #export PATH=$VBOX:$BIN:$PATH
 

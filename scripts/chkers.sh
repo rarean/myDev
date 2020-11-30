@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+function chkNet31(){
+  [[ `command -v dotnet` ]] && echo true || echo false
+}
 function chkCurl(){
   [[ `command -v curl` ]] && echo true || echo false
 }
