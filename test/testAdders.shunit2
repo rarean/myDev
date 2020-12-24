@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-source ./scripts/common.sh
-source ./tests/mocks.sh
-#ensure we have shunit installed for tests
-if [[ $(chkShUnit) = false ]]; then
-  addShUnit
-fi
+source ./scripts/chkers.sh
+source ./scripts/adders.sh
+source ./test/mocks.sh
 
 #expand aliases for mocks & stubs
 shopt -s expand_aliases
