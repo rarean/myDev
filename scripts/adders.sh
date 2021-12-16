@@ -233,6 +233,9 @@ function addJava8(){
   if [[ $(getOS) == "Mac" && $(chkJenv) = true ]]; then
     brew tap adoptopenjdk/openjdk
     brew cask install adoptopenjdk8
+    jenv add $(find `brew --prefix adoptopenjdk8`)
+    jenv global 8
+    exec $SHELL
   else
     echo "You will need to install Java8 manually"
   fi
@@ -240,6 +243,9 @@ function addJava8(){
 function addJava17(){
   if [[ $(getOS) == "Mac" && $(chkJenv) = true ]]; then
     brew install openjdk@17
+    jenv add $(find `brew --prefix openjdk@17`)
+    jenv global 17
+    exec $SHELL
   else
     echo "You will need to install Java17 manually"
   fi
