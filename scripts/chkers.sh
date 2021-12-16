@@ -90,3 +90,19 @@ function chkGitFileCurl(){
 function chkZshShell(){
   [[ "$(echo $0)" == "-zsh" ]] && echo true || echo false
 }
+function chkXcode(){
+  [[ `command -v xcode-select` ]] && echo true || echo false
+}
+function chkJenv(){
+  [[ `command -v jenv` ]] && echo true || echo false
+}
+function chkPython(){
+  [[ `command -v python` ]] && echo true || echo false
+}
+function chkGradle(){
+  [[ `command -v gradle` ]] && echo true || echo false
+}
+function chkJetbrains(){
+ [[ -f /Applications/JetBrains\ Toolbox.app ]] && echo true || echo false
+}
+

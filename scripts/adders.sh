@@ -2,28 +2,6 @@
 source ./scripts/chkers.sh
 source ./scripts/util.sh
 
-function addDotNet31(){
-  if [[ $(chkNet31) = true ]]; then
-    echo "dotNet already installed"
-    return
-  else
-    # see https://dev.to/jeremyabbott/how-i-setup-my-new-mac-16gi
-    echo `./scripts/dotnet-install.sh -c LTS # 3.1`
-  fi
-}
-
-function addBrew(){
-  if [[ $(chkBrew) = true ]]; then
-    #already installed
-    brew update && brew cleanup
-    return
-  elif [[ $(getOS) != "Win" ]]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  else
-    echo "Sorry can't install homebrew"
-    exit 1
-  fi
-}
 function addNvm(){
   if [[ $(chkNvm) = true ]]; then
     #already installed
@@ -34,7 +12,6 @@ function addNvm(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addNvm
   else
     [[ `brew ls --versions nvm` ]] && return || brew install nvm
@@ -57,12 +34,10 @@ function addAwsCli(){
   if [[ $(chkAwsCli) = true ]]; then
     #already installed
     return
-  elif [[ $(chkNpm) = false ]]; then
-    addNode
+  elif [[ $(chkPython) = false ]]; then
+    echo "you must install Python >= 2.7.x+ to use awscli"
   else
-    export NVM_DIR=~/.nvm
-    source $(brew --prefix nvm)/nvm.sh
-    npm install -g aws-sdk
+    brew install awscli
   fi
 }
 function addAwsSam(){
@@ -73,7 +48,6 @@ function addAwsSam(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addAwsSam
   else
     brew tap aws/tap
@@ -87,23 +61,21 @@ function addAwsIam(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addAwsIam
   else
     [[ `brew ls --versions aws-iam-authenticator` ]] && return || brew install aws-iam-authenticator
   fi
 }
-function addJq(){
-  if [[ $(chkJq) = true ]]; then
-    #already installed
-    brew upgrade jq
+function addXcodeCli(){
+  if [[ $(chkXcode) = true ]]; then
     return
-  elif [[ $(chkBrew) = false ]]; then
-    echo "Sorry requires homebrew first"
-    addBrew
-    addJq
   else
-    [[ `brew ls --versions jq` ]] && return || brew install jq
+    xcode-select --install
+  fi
+}
+function addJq(){
+  if [[ $(chkJq) = false ]]; then
+    [[ `brew ls --versions jq` ]] && brew upgrade jq || brew install jq
   fi
 }
 function addMvn(){
@@ -122,7 +94,6 @@ function addShUnit(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addShUnit
   else
     [[ `brew ls --versions shunit2` ]] && return || brew install shunit2
@@ -135,7 +106,6 @@ function addHelm(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addHelm
   else
     [[ `brew ls --versions helm` ]] && return || brew install helm
@@ -148,14 +118,17 @@ function addKubectl(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
-    addKubectl
   else
     [[ `brew ls --versions kubectl` ]] && return || brew install kubectl
   fi
 }
+function addZsh(){
+  if [[ $(chkZsh) = false ]]; then
+    [[ `brew ls --versions zsh` ]] && brew upgrade zsh || brew install zsh
+  fi
+}
 function addOhMyZsh(){
-  if [[ $(getOS) != "Win" && ! -d ~/.oh-my-zsh ]]; then
+  if [[ ! -d ~/.oh-my-zsh && $(chkZsh) = true ]]; then
    echo "=========> install ohMyZsh"
    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   fi
@@ -166,16 +139,8 @@ function addProjectsDir(){
   fi
 }
 function addVim(){
-  if [[ $(chkVim) = true ]]; then
-    #already installed
-    brew upgrade vim
-    return
-  elif [[ $(chkBrew) = false && $(chkVim) = false ]]; then
-    echo "Caution: Vim not installed!"
-    echo "You will need to install Vim seperately"
-    return
-  else
-    [[ `brew ls --versions vim` ]] && return || brew install vim
+  if [[ $(chkVim) = false ]]; then
+    [[ `brew ls --versions vim` ]] && brew upgrade vim || brew install vim
   fi
 }
 function addVimPlugins(){
@@ -201,23 +166,17 @@ function addBashrcToProfile(){
     echo ' ' >> ~/.bash_profile
   fi
   if [[ -f ~/.bashrc ]]; then
-    echo "backup current settings"
+    echo "backup current bash settings"
     mv ~/.bashrc ~/.bashrc.bak
     ln -sf $(pwd)/common/bashrc ~/.bashrc
   fi
 }
-function addZsh(){
-  if [[ $(chkZsh) = true ]]; then
-    #already installed
-    brew upgrade zsh
-    return
-  elif [[ $(chkBrew) = false ]]; then
-    echo "Sorry requires homebrew first"
-    addBrew
-    addZsh
-  else
-    [[ `brew ls --versions zsh` ]] && return || brew install zsh
+function addZshrc(){
+  if [[ -f ~/.zshrc ]]; then
+    echo "backup current zsh settings"
+    mv ~/.zshrc ~/.zshrc.bak
   fi
+  ln -sf $(pwd)/common/zshrc ~/.zshrc
 }
 function addMongoDb(){
   if [[ $(chkMongoDb) = true ]]; then
@@ -226,7 +185,6 @@ function addMongoDb(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addMongoDb
   else
     if [[ `brew ls --versions mongodb-community` ]]; then
@@ -244,7 +202,6 @@ function addMongoShell(){
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"
-    addBrew
     addMongoShell
   else
     if [[ `brew ls --versions mongodb-community` ]]; then
@@ -264,12 +221,57 @@ function addReact(){
     npm install -g create-react-app
   fi
 }
-function addZshrc(){
-  if [[ -f ~/.zshrc ]]; then
-    echo "backup current settings"
-    mv ~/.zshrc ~/.zshrc.bak
+function addJenv(){
+  if [[ $(chkJenv) = true ]]; then
+    return
+  else
+    brew install jenv
+    source ~/.zshrc
   fi
-  ln -sf $(pwd)/common/zshrc ~/.zshrc
+}
+function addJava8(){
+  if [[ $(getOS) == "Mac" && $(chkJenv) = true ]]; then
+    brew tap adoptopenjdk/openjdk
+    brew cask install adoptopenjdk8
+  else
+    echo "You will need to install Java8 manually"
+  fi
+}
+function addJava17(){
+  if [[ $(getOS) == "Mac" && $(chkJenv) = true ]]; then
+    brew install openjdk@17
+  else
+    echo "You will need to install Java17 manually"
+  fi
+}
+function addGradle(){
+  if [[ $(chkGradle) = false ]]; then
+    brew install gradle
+  fi
+}
+function addPyenvDeps(){
+  if [[ $(chkBrew) = false ]]; then
+    echo "Please install homebrew first"
+  else
+    brew install bzip2 lbzip2 lzlib openssl zlib readline sqlite3 xz
+  fi
+}
+function addPyenv(){
+  if [[ $(chkCurl) = false ]]; then
+    echo "Please install curl first"
+  else
+    curl https://pyenv.run | bash
+  fi
+}
+function addPython36(){
+ # workaround for 3.6.15 on macOS 12.0.1
+ pyenv update
+ LDFLAGS="-L/usr/local/opt/bzip2/lib -L/usr/local/opt/zlib/lib -L/usr/local/opt/openssl@1.1/lib" CFLAGS="-I/usr/local/opt/bzip2/include -I/usr/local/opt/zlib/include -I/usr/local/opt/openssl@1.1/include -I$(xcrun --show-sdk-path)/usr/include -Wno-implicit-function-declaration" pyenv install 3.6.15
+}
+function addJetbrains(){
+  if [[ $(chkJetbrains) = false ]]; then
+    brew install jetbrains-toolbox
+  fi
 }
 function addCommon(){
   if [[ $(chkGit) = false ]]; then
@@ -280,39 +282,23 @@ function addCommon(){
     echo "curl is a prerequisite. Please install first"
     exit 1
   fi
+  if [[ $(chkBrew) = false ]]; then
+    echo "Homebrew is a prerequisite. Please install first"
+    exit 1
+  fi
 
-  addBashrcToProfile
   addProjectsDir
   addZsh
-  addOhMyZsh
   addJq
+  addXcodeCli
   addVim
   addVimPlugins
+  addBashrcToProfile
   addZshrc
+  addOhMyZsh
 }
 function addAWS(){
-  addNode
   addAwsCli
   addAwsSam
   addAwsIam
-}
-function addJava8(){
-  if [[ $(getOS) == "Mac" ]]; then
-    brew tap adoptopenjdk/openjdk
-    brew cask install adoptopenjdk8
-  elif [[ $(getOS) == "Lin" ]]; then
-    echo "You will need sudo access for this: "
-    if [[ $(getDistro) == "Deb" ]]; then
-      sudo apt-get -y install openjdk-8-jdk
-      sudo apt-get -y install openjdk-8-jre
-    elif [[ $(getDistro) == "RHEL" ]]; then
-      su -c "yum -y install java-1.8.0-openjdk-devel"
-      su -c "yum -y install java-1.8.0-openjdk"
-    else
-      echo "Your distro is not supported with this method"
-      echo "You will need to install java8 manually"
-    fi
-  else
-    echo "You will need to install Java8 manually"
-  fi
 }

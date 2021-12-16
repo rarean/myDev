@@ -6,7 +6,6 @@ function search(){
   [[ `grep -iRl "${txt_}" "${file_}"` ]] && echo true || echo false
   unset txt_ file_
 }
-
 function getOS(){
   OS="$(uname -s | cut -d '_' -f1)"
   if [[ $OS == "Darwin" ]]; then
@@ -36,4 +35,17 @@ function getDistro(){
     DIST="unknown"
   fi
   echo $DIST
+}
+function confirm(){
+  # call with a prompt string or use a default
+  read -r -p "${1:-Please choose [y/N]} " response
+  case "${response}" in
+      [yY][eE][sS]|[yY])
+          ANS=true
+          ;;
+      *)
+          ANS=false
+          ;;
+  esac
+  echo $ANS
 }

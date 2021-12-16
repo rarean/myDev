@@ -90,10 +90,19 @@ if type brew &>/dev/null; then
         compinit
 fi
 
-if [ -d "$HOME/.dotnet" ] ; then
-    export PATH="$PATH:$HOME/.dotnet"
-fi
+export PATH="/usr/local/opt/bzip2/bin:$PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 
-if [ -d "$HOME/.dotnet/tools" ] ; then
-    export PATH="$PATH:$HOME/.dotnet/tools"
-fi
+export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv virtualenv-init -)"
+
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+

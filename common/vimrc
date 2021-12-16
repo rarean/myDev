@@ -12,7 +12,7 @@ endif
 "Enable Pathogen plugins
 " primarily for NerdTre-tabs
 "----------------------
-execute pathogen#infect()
+" execute pathogen#infect()
 
 "----------------------
 "vim-plug

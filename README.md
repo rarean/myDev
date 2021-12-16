@@ -1,23 +1,32 @@
 # Setup local box with common Dev tools
+PREREQUISITES
+hombrew & curl
 
 # TL;DR
-PREREQUISITES
-curl & git
+Install Homebrew
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
-## Mac || Linux (Ubuntu/CentOS) Setup
-Uses [Homebrew](https://brew.sh/) to setup Mac & Linux systems
+Install Git
+`brew install git`
+
+Clone this repo
+`git clone ${RepoURL}`
+
+Install tools for your project
+`cd devSetup && ./setup.sh`
+
+
+## MacOS
+Uses [Homebrew](https://brew.sh/) to setup Mac & Install
 
 run `./setup.sh` to install packages
 ```bash
 $ ./setup.sh
-1) ReactFrontend   3) ReactFullstack  5) Java8           7) Quit
-2) MongoDB         4) AWS             6) K8S
-Please enter your choice:
+1) ReactFrontend        5) Java8	       9) Jetbrains-toolbox
+2) MongoDB	        6) Java17	      10) Quit
+3) ReactFullstack       7) K8S
+4) AWS		        8) Python
 ```
-## Windows
-It's recommended to use [Chocolatey](https://chocolatey.org/) to install
-packages. Some attemp to do this is included but not documented
-
 
 # Bash Only Setup
 Use this option for cygwin or gitBash (windows) and others where you want more control and just care about bash terminal.

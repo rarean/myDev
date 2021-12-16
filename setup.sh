@@ -1,56 +1,96 @@
 #!/usr/bin/env bash
 
-source ./scripts/common.sh
-source ./scripts/installers.sh
+source ./scripts/adders.sh
+source ./scripts/chkers.sh
+source ./scripts/util.sh
+
+function projectChoise(){
+  PS3='Please enter your choice: '
+  options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "Java17" "K8S" "Python" "Jetbrains-toolbox" "Quit")
+  select opt in "${options[@]}"
+  do
+    #$REPLY holds number pkgs if needed
+      case $opt in
+          "ReactFrontend")
+              #echo "Setup projects for React"
+              local pkgs=("Common" "Node" "React")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "MongoDB")
+              #echo "Setup projects for NodeJs & Mongo"
+              local pkgs=("Common" "Node" "MongoDb" "MongoShell")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "ReactFullstack")
+              #echo "Setup projects for React with Node & Mongo"
+              local pkgs=("Common" "Node" "React" "MongoDb" "MongoShell")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "AWS")
+              #echo "Setup projects for Kubernetes & Helm"
+              local pkgs=("Common" "AWS")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "K8S")
+              #echo "Setup projects for Kubernetes & Helm"
+              local pkgs=("Common" "Kubectl" "Helm")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Java8")
+              #echo "Setup projects for Java & Maven"
+              local pkgs=("Common" "Jenv" "Java8" "Mvn")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Java17")
+              #echo "Setup projects for Java17 & gradle"
+              local pkgs=("Common" "Jenv" "Java17" "Gradle")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Python")
+              #echo "Setup projects for python 3.6.15"
+              local pkgs=("Common" "PyenvDeps" "Pyenv" "Python36")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Jetbrains-toolbox")
+              #echo "Setup projects for python 3.6.15"
+              local pkgs=("Common" "Jetbrains")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Quit")
+              break
+              ;;
+          *) echo "invalid option $REPLY";;
+      esac
+  done
+}
 
 PWD="$(pwd)"
-# run projectChoise first from scripts/common
+# get projectChoise first
 PKGS=( $(projectChoise) )
-OS=$(getOS)
 
 if [[ ${#PKGS[*]} == 0 ]]; then
   exit
 fi
-#echo "Packages to install: ${#PKGS[*]}"
-while [[ $OS != "" ]] #some type of OS
+
+#echo "install packages: ${PKGS[@]}"
+
+for ix in ${!PKGS[*]}
 do
-  case $OS in
-    "Win")
-      chocoPkgInstaller $PKGS
-      break
-      ;;
-    "Mac")
-      brewPkgInstaller $PKGS
-      break
-      ;;
-    "Lin")
-      brewPkgInstaller $PKGS
-      break
-      ;;
-    *) echo "Unknown OS"
-       echo "Not able to install packages"
-      break
-      ;;
-  esac
+  pkg=${PKGS[$ix]}
+  echo
+  printf "=========> Installing:  %s\n" "$pkg <========="
+  add$pkg
+  echo
 done
 
 echo
-
-
-#if [ ${unameOut} == "CYGWIN" ]; then
-#  VBOX="/cygdrive/c/Program Files/Oracle/VirtualBox"
-#fi
-#if [ ${unameOut} == "Darwin" ]; then
-#  export JAVA_HOME=$(/usr/libexec/java_home)
-#  export M3_HOME=/Applications/apache-maven-3.6.0
-#  export M2_HOME=/Applications/apache-maven-3.6.0
-#  export MVN_HOME=/Applications/apache-maven-3.6.0
-#elif [ ${unameOut} == "CYGWIN" ]; then
-#  export JAVA_HOME=/cygdrive/c/Program\ Files/Java/jdk1.8.0_92
-#  export M3_HOME=/opt/apache-maven-3.6.0
-#  export M2_HOME=/opt/apache-maven-3.6.0
-#fi
-
-#export PATH=$PATH:$JAVA_HOME/bin:$MVN_HOME/bin:$LOGSTASH_HOME/bin
-#export PATH=$PATH:$M3_HOME/bin:$M2_HOME/bin
 
