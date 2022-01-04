@@ -8,11 +8,6 @@ if has("autocmd")
   filetype plugin indent on "enable filetype detection
 endif
 
-"----------------------
-"Enable Pathogen plugins
-" primarily for NerdTre-tabs
-"----------------------
-execute pathogen#infect()
 
 "----------------------
 "vim-plug

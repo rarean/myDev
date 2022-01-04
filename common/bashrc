@@ -70,8 +70,10 @@ alias modsVi='vim -O $(git ls-files . --modified --exclude-standard --others)'
 alias modsVs='code $(git ls-files . --modified --exclude-standard --others)'
 
 # enable nvm
-export NVM_DIR="~/.nvm"
-source $(brew --prefix nvm)/nvm.sh
+if [[ `command -v brew` ]]; then
+  export NVM_DIR="~/.nvm"
+  source $(brew --prefix nvm)/nvm.sh
+fi
 
 # enable dotnet
 if [ -d "$HOME/.dotnet" ] ; then
@@ -81,6 +83,15 @@ fi
 if [ -d "$HOME/.dotnet/tools" ] ; then
     export PATH="$PATH:$HOME/.dotnet/tools"
 fi
+
+# chromium build tools
+if [ -d "$HOME/projects/depot_tools" ] ; then
+  export PATH ="$PATH:$HOME/projects/depot_tools"
+  umask 022
+fi
+
+export ADB="./platform-tools"
+export PATH=$PATH:$ADB
 #BIN="~/bin"
 #export PATH=$VBOX:$BIN:$PATH
 
