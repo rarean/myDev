@@ -279,6 +279,19 @@ function addJetbrains(){
     brew install jetbrains-toolbox
   fi
 }
+function addKompose(){
+  if [[ $(chkKompose) = false ]]; then
+    curl -L https://github.com/kubernetes/kompose/releases/download/v1.25.0/kompose-darwin-amd64 -o /tmp/kompose
+    chmod +x /tmp/kompose
+    mv /tmp/kompose /usr/local/Cellar/kompose
+    ln -sf /usr/local/Cellar/kompose /usr/local/bin/kompose
+  fi
+}
+function addGpg(){
+  if [[ $(chkGpg) = false ]]; then
+    brew install gpg
+  fi
+}
 function addCommon(){
   if [[ $(chkGit) = false ]]; then
     echo "git is a prerequisite. Please install first"
@@ -308,3 +321,8 @@ function addAWS(){
   addAwsSam
   addAwsIam
 }
+function addGitSetup(){
+  addGpg
+  gitConfig # from utils
+}
+

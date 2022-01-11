@@ -103,6 +103,12 @@ function chkGradle(){
   [[ `command -v gradle` ]] && echo true || echo false
 }
 function chkJetbrains(){
- [[ -f /Applications/JetBrains\ Toolbox.app ]] && echo true || echo false
+  [[ -f /Applications/JetBrains\ Toolbox.app ]] && echo true || echo false
+}
+function chkKompose(){
+  [[ `command -v kompose` ]] && echo true || echo false
+}
+function chkGpg(){
+  [[ `command -v gpg` ]] && echo true || echo false
 }
 

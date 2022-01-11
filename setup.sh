@@ -6,7 +6,8 @@ source ./scripts/util.sh
 
 function projectChoise(){
   PS3='Please enter your choice: '
-  options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "Java17" "K8S" "Python" "Jetbrains-toolbox" "Quit")
+  options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "Java17" \
+    "K8S" "Python" "Jetbrains-toolbox" "Git-Setup" "Quit")
   select opt in "${options[@]}"
   do
     #$REPLY holds number pkgs if needed
@@ -37,7 +38,7 @@ function projectChoise(){
               ;;
           "K8S")
               #echo "Setup projects for Kubernetes & Helm"
-              local pkgs=("Common" "Kubectl" "Helm")
+              local pkgs=("Common" "Kubectl" "Helm" "Kompose")
               echo ${pkgs[@]}
               break
               ;;
@@ -65,6 +66,12 @@ function projectChoise(){
               echo ${pkgs[@]}
               break
               ;;
+          "Git-Setup")
+              #echo "Configure Git Settings"
+              local pkgs=("Common" "Gpg")
+              echo ${pkgs[@]}
+              break
+              ;;
           "Quit")
               break
               ;;
@@ -88,7 +95,7 @@ do
   pkg=${PKGS[$ix]}
   echo
   printf "=========> Installing:  %s\n" "$pkg <========="
-  add$pkg
+  add$pkg # pkg name in adders.sh should match pattern add+$pkg (e.g. addCommon)
   echo
 done
 

@@ -49,3 +49,9 @@ function confirm(){
   esac
   echo $ANS
 }
+function gitConfig(){
+  echo do some gitconfig
+  read -r -p "${1:-Enter your full name} " NAME
+  read -r -p "${1:-Enter your email address} " EMAIL
+
+}
