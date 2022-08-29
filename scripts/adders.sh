@@ -115,6 +115,8 @@ function addKubectl(){
   if [[ $(chkKubectl) = true ]]; then
     #already installed
     brew upgrade kubectl
+    echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc
+    echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.bashrc
     return
   elif [[ $(chkBrew) = false ]]; then
     echo "Sorry requires homebrew first"

@@ -32,6 +32,8 @@ Plug 'tpope/vim-surround'
 Plug 'raimondi/delimitmate'
 Plug 'vim-airline/vim-airline'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'hashivim/vim-terraform'
+Plug 'ekalinin/dockerfile.vim'
 call plug#end()
 
 "show whitespace
@@ -96,12 +98,12 @@ set listchars=tab:>-,trail:~,extends:>,precedes:<
 set list
 
 " retrun to last edit position when opening files
-autocmd BufReadPost *
-  \if line("'\'") > 0 && line("'\'") <= line("$") |
-  \  exe "normal! g`\"" |
-  \endif
+"autocmd BufReadPost *
+"  \if line("'\'") > 0 && line("'\'") <= line("$") |
+"  \  exe "normal! g`\"" |
+"  \endif
 " remember info about open buffers on close
-set viminfo^=%
+"set viminfo^=%
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -125,7 +127,6 @@ let g:NERDTreeWinSize =30
 "NERDTree Tabs
 "----------------------
 " toggle with Ctrl+t
-"map <silent> <C-t> :call ToggleVExplorer()<CR>
 map <C-t> <plug>NERDTreeTabsToggle<CR>
 " Change directory to the current buffer when opening files.
 "set autochdir
