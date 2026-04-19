@@ -46,7 +46,7 @@ function addNvm(){
 function addNode(){
   addNvm
   export NVM_DIR=~/.nvm
-  source $(brew --prefix nvm)/nvm.sh
+  source "$(brew --prefix nvm)/nvm.sh"
   VER=$(nvm version)
   if [[ $VER != "v10.15.3" ]]; then
     nvm install 10.15.3 && nvm use 10.15.3
@@ -57,13 +57,13 @@ function addAwsCli(){
   if [[ $(chkAwsCli) = true ]]; then
     #already installed
     return
-  elif [[ $(chkNpm) = false ]]; then
-    addNode
-  else
-    export NVM_DIR=~/.nvm
-    source $(brew --prefix nvm)/nvm.sh
-    npm install -g aws-sdk
   fi
+  if [[ $(chkNpm) = false ]]; then
+    addNode
+  fi
+  export NVM_DIR=~/.nvm
+  source "$(brew --prefix nvm)/nvm.sh"
+  npm install -g aws-sdk
 }
 function addAwsSam(){
   if [[ $(chkAwsSam) = true ]]; then
@@ -111,6 +111,9 @@ function addMvn(){
     #already installed
     brew upgrade maven
     return
+  elif [[ $(chkBrew) = false ]]; then
+    addBrew
+    addMvn
   else
     [[ `brew ls --versions maven` ]] && return || brew install maven
   fi
@@ -170,10 +173,9 @@ function addVim(){
     #already installed
     brew upgrade vim
     return
-  elif [[ $(chkBrew) = false && $(chkVim) = false ]]; then
-    echo "Caution: Vim not installed!"
-    echo "You will need to install Vim seperately"
-    return
+  elif [[ $(chkBrew) = false ]]; then
+    addBrew
+    addVim
   else
     [[ `brew ls --versions vim` ]] && return || brew install vim
   fi
@@ -271,14 +273,39 @@ function addZshrc(){
   fi
   ln -sf $(pwd)/common/zshrc ~/.zshrc
 }
+function addPyenv(){
+  if [[ $(chkPyenv) = true ]]; then
+    brew upgrade pyenv
+    return
+  elif [[ $(chkBrew) = false ]]; then
+    addBrew
+    addPyenv
+  else
+    [[ `brew ls --versions pyenv` ]] && return || brew install pyenv
+  fi
+}
+function addUv(){
+  if [[ $(chkUv) = true ]]; then
+    uv self update
+    return
+  else
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+  fi
+}
+function addPython(){
+  addPyenv
+  addUv
+}
 function addCommon(){
   if [[ $(chkGit) = false ]]; then
-    echo "git is a prerequisite. Please install first"
-    exit 1
+    echo "git not found, installing via Homebrew..."
+    addBrew
+    brew install git
   fi
   if [[ $(chkCurl) = false ]]; then
-    echo "curl is a prerequisite. Please install first"
-    exit 1
+    echo "curl not found, installing via Homebrew..."
+    addBrew
+    brew install curl
   fi
 
   addBashrcToProfile
@@ -298,6 +325,7 @@ function addAWS(){
 }
 function addJava8(){
   if [[ $(getOS) == "Mac" ]]; then
+    if [[ $(chkBrew) = false ]]; then addBrew; fi
     brew tap adoptopenjdk/openjdk
     brew cask install adoptopenjdk8
   elif [[ $(getOS) == "Lin" ]]; then

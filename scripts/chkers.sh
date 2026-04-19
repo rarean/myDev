@@ -24,30 +24,35 @@ function chkBrew(){
 function chkJq(){
   [[ `command -v jq` ]] && echo true || echo false
 }
+function _sourceNvm(){
+  if [[ $(chkBrew) = false ]]; then return 1; fi
+  local nvm_sh="$(brew --prefix nvm 2>/dev/null)/nvm.sh"
+  [[ -f "$nvm_sh" ]] && source "$nvm_sh" || return 1
+}
 function chkNvm(){
-  source $(brew --prefix nvm)/nvm.sh
+  _sourceNvm 2>/dev/null
   [[ `command -v nvm` ]] && echo true || echo false
 }
 function chkNpm(){
-  source $(brew --prefix nvm)/nvm.sh
+  _sourceNvm 2>/dev/null
   [[ `command -v npm` ]] && echo true || echo false
 }
 function chkMongo(){
-  source $(brew --prefix nvm)/nvm.sh
-  [[ `command -v npm` ]] && echo true || echo false
+  _sourceNvm 2>/dev/null
+  [[ `command -v mongo` ]] && echo true || echo false
 }
 function chkNode(){
-  source $(brew --prefix nvm)/nvm.sh
+  _sourceNvm 2>/dev/null
   [[ `command -v node` ]] && echo true || echo false
 }
 function chkReact(){
-  source $(brew --prefix nvm)/nvm.sh
-  REACT=$(npm list -g --depth 0 create-react-app | grep react | cut -d '-' -f2)
+  _sourceNvm 2>/dev/null || { echo false; return; }
+  REACT=$(npm list -g --depth 0 create-react-app 2>/dev/null | grep react | cut -d '-' -f2)
   [[ $REACT != "react" ]] && echo true || echo false
 }
 function chkAwsCli(){
-  source $(brew --prefix nvm)/nvm.sh
-  SDK=$(npm ls -g --depth 0 | grep aws-sdk | cut -d ' ' -f2 | cut -d '@' -f1)
+  _sourceNvm 2>/dev/null || { echo false; return; }
+  SDK=$(npm ls -g --depth 0 2>/dev/null | grep aws-sdk | cut -d ' ' -f2 | cut -d '@' -f1)
   [[ $SDK != "aws-sdk" ]] && echo true || echo false
 }
 function chkAwsSam(){
@@ -89,4 +94,10 @@ function chkGitFileCurl(){
 }
 function chkZshShell(){
   [[ "$(echo $0)" == "-zsh" ]] && echo true || echo false
+}
+function chkPyenv(){
+  [[ `command -v pyenv` ]] && echo true || echo false
+}
+function chkUv(){
+  [[ `command -v uv` ]] && echo true || echo false
 }

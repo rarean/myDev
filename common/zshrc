@@ -80,8 +80,11 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # enable nvm
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+if [ `command -v brew` ] ; then
+  export NVM_DIR="$HOME/.nvm"
+  export PATH="$PATH:$NVM_DIR"
+  source $(brew --prefix nvm)/nvm.sh
+fi
 
 if type brew &>/dev/null; then
     FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -90,6 +93,13 @@ if type brew &>/dev/null; then
         compinit
 fi
 
+
+if [ -d "$HOME/projects/depot_tools" ] ; then
+  export PATH="$PATH:$HOME/projects/depot_tools"
+  umask 022
+fi
+
+
 if [ -d "$HOME/.dotnet" ] ; then
     export PATH="$PATH:$HOME/.dotnet"
 fi
@@ -97,3 +107,17 @@ fi
 if [ -d "$HOME/.dotnet/tools" ] ; then
     export PATH="$PATH:$HOME/.dotnet/tools"
 fi
+if [ -d "$HOME/Library/Androd/sdk" ]; then
+  export ADB="$HOME/Library/Android/sdk/platform-tools"
+  export PATH=$PATH:$ADB
+fi
+
+# homebrew
+[[ -f ~/.zprofile ]] && source ~/.zprofile
+
+# uv
+export PATH="/Users/aperez/.local/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+#export SDKMAN_DIR="$HOME/.sdkman"
+#[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
