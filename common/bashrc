@@ -75,6 +75,7 @@ if [[ `command -v brew` ]]; then
   source $(brew --prefix nvm)/nvm.sh
 fi
 
+
 # enable dotnet
 if [ -d "$HOME/.dotnet" ] ; then
     export PATH="$PATH:$HOME/.dotnet"
@@ -92,6 +93,7 @@ fi
 
 export ADB="./platform-tools"
 export PATH=$PATH:$ADB
+
 #BIN="~/bin"
 #export PATH=$VBOX:$BIN:$PATH
 

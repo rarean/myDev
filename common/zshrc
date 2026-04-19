@@ -93,10 +93,12 @@ if type brew &>/dev/null; then
         compinit
 fi
 
+
 if [ -d "$HOME/projects/depot_tools" ] ; then
   export PATH="$PATH:$HOME/projects/depot_tools"
   umask 022
 fi
+
 
 if [ -d "$HOME/.dotnet" ] ; then
     export PATH="$PATH:$HOME/.dotnet"

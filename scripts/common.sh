@@ -23,7 +23,9 @@ function confirm(){
 #}
 function projectChoise(){
   PS3='Please enter your choice: '
+
   options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "K8S" "DotNet3.1" "Python" "Quit")
+
   select opt in "${options[@]}"
   do
     #$REPLY holds number pkgs if needed
@@ -75,6 +77,7 @@ function projectChoise(){
               echo ${pkgs[@]}
               break
               ;;
+
           "Quit")
               break
               ;;
