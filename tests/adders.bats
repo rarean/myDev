@@ -133,13 +133,13 @@ teardown() {
 
 @test "addUv installs uv after installing brew when brew is missing" {
   chkUv() { echo false; }
-    _ctr="$BATS_TEST_DIRNAME/.brew_ctr"
+  _ctr="$BATS_TEST_TMPDIR/.brew_ctr"
   echo "0" > "$_ctr"
   chkBrew() {
     local c
     c=$(cat "$_ctr" 2>/dev/null || echo 0)
     if [[ "$c" -gt 0 ]]; then echo true; else echo 1 > "$_ctr"; echo false; fi
-    }
+  }
   getOS() { echo "Mac"; }
   curl() { echo ":"; }
   brew() {
@@ -147,9 +147,10 @@ teardown() {
       ls) return 1 ;;
     esac
     echo "brew $*"
-     }
+  }
   run addUv
-       [[ "$output" == *"install uv"* ]]
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"install uv"* ]]
 }
 
 # ── addPython ─────────────────────────────────────────────────────────────
