@@ -286,10 +286,13 @@ function addPyenv(){
 }
 function addUv(){
   if [[ $(chkUv) = true ]]; then
-    uv self update
+    brew upgrade uv
     return
+  elif [[ $(chkBrew) = false ]]; then
+    addBrew
+    addUv
   else
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+    [[ `brew ls --versions uv` ]] && return || brew install uv
   fi
 }
 function addPython(){

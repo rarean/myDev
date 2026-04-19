@@ -20,19 +20,19 @@ teardown() {
 
 # ── addJq ─────────────────────────────────────────────────────────────────
 @test "addJq upgrades when already installed" {
-  chkJq()  { echo true; }
+  chkJq()      { echo true; }
   brew() { echo "brew $*"; }
   run addJq
-  [ "$output" = "brew upgrade jq" ]
+      [ "$output" = "brew upgrade jq" ]
 }
 
 @test "addJq installs when not present and brew available" {
-  chkJq()  { echo false; }
+  chkJq()      { echo false; }
   chkBrew() { echo true; }
-  # Return empty for "ls --versions" (simulates not installed), echo otherwise
+      # Return empty for "ls --versions" (simulates not installed), echo otherwise
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addJq
-  [ "$output" = "brew install jq" ]
+      [ "$output" = "brew install jq" ]
 }
 
 # ── addHelm ───────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ teardown() {
   chkHelm() { echo true; }
   brew() { echo "brew $*"; }
   run addHelm
-  [ "$output" = "brew upgrade helm" ]
+      [ "$output" = "brew upgrade helm" ]
 }
 
 @test "addHelm installs when not present and brew available" {
@@ -48,7 +48,7 @@ teardown() {
   chkBrew() { echo true; }
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addHelm
-  [ "$output" = "brew install helm" ]
+      [ "$output" = "brew install helm" ]
 }
 
 # ── addKubectl ────────────────────────────────────────────────────────────
@@ -56,15 +56,15 @@ teardown() {
   chkKubectl() { echo true; }
   brew() { echo "brew $*"; }
   run addKubectl
-  [ "$output" = "brew upgrade kubectl" ]
+      [ "$output" = "brew upgrade kubectl" ]
 }
 
 @test "addKubectl installs when not present and brew available" {
   chkKubectl() { echo false; }
-  chkBrew()    { echo true; }
+  chkBrew()       { echo true; }
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addKubectl
-  [ "$output" = "brew install kubectl" ]
+      [ "$output" = "brew install kubectl" ]
 }
 
 # ── addMvn ────────────────────────────────────────────────────────────────
@@ -72,15 +72,15 @@ teardown() {
   chkMvn() { echo true; }
   brew() { echo "brew $*"; }
   run addMvn
-  [ "$output" = "brew upgrade maven" ]
+      [ "$output" = "brew upgrade maven" ]
 }
 
 @test "addMvn installs when not present and brew available" {
-  chkMvn()  { echo false; }
+  chkMvn()      { echo false; }
   chkBrew() { echo true; }
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addMvn
-  [ "$output" = "brew install maven" ]
+      [ "$output" = "brew install maven" ]
 }
 
 # ── addAwsIam ─────────────────────────────────────────────────────────────
@@ -88,15 +88,15 @@ teardown() {
   chkAwsIam() { echo true; }
   brew() { echo "brew $*"; }
   run addAwsIam
-  [ "$output" = "brew upgrade aws-iam-authenticator" ]
+      [ "$output" = "brew upgrade aws-iam-authenticator" ]
 }
 
 @test "addAwsIam installs when not present and brew available" {
   chkAwsIam() { echo false; }
-  chkBrew()   { echo true; }
+  chkBrew()       { echo true; }
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addAwsIam
-  [ "$output" = "brew install aws-iam-authenticator" ]
+      [ "$output" = "brew install aws-iam-authenticator" ]
 }
 
 # ── addPyenv ──────────────────────────────────────────────────────────────
@@ -104,47 +104,68 @@ teardown() {
   chkPyenv() { echo true; }
   brew() { echo "brew $*"; }
   run addPyenv
-  [ "$output" = "brew upgrade pyenv" ]
+      [ "$output" = "brew upgrade pyenv" ]
 }
 
 @test "addPyenv installs when not present and brew available" {
   chkPyenv() { echo false; }
-  chkBrew()  { echo true; }
+  chkBrew()       { echo true; }
   brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addPyenv
-  [ "$output" = "brew install pyenv" ]
+      [ "$output" = "brew install pyenv" ]
 }
 
 # ── addUv ─────────────────────────────────────────────────────────────────
-@test "addUv self-updates when already installed" {
+@test "addUv upgrades when already installed" {
   chkUv() { echo true; }
-  uv() { echo "uv $*"; }
+  brew() { echo "brew $*"; }
   run addUv
-  [ "$output" = "uv self update" ]
+      [ "$output" = "brew upgrade uv" ]
 }
 
-@test "addUv installs via curl when not present" {
+@test "addUv installs via brew when available and not present" {
   chkUv() { echo false; }
-  # Stub curl to emit a no-op script so sh doesn't do anything real
-  curl() { echo ":"; }
+  chkBrew() { echo true; }
+  brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
   run addUv
-  [ "$status" -eq 0 ]
+      [ "$output" = "brew install uv" ]
+}
+
+@test "addUv installs uv after installing brew when brew is missing" {
+  chkUv() { echo false; }
+    _ctr="$BATS_TEST_DIRNAME/.brew_ctr"
+  echo "0" > "$_ctr"
+  chkBrew() {
+    local c
+    c=$(cat "$_ctr" 2>/dev/null || echo 0)
+    if [[ "$c" -gt 0 ]]; then echo true; else echo 1 > "$_ctr"; echo false; fi
+    }
+  getOS() { echo "Mac"; }
+  curl() { echo ":"; }
+  brew() {
+    case "$1" in
+      ls) return 1 ;;
+    esac
+    echo "brew $*"
+     }
+  run addUv
+       [[ "$output" == *"install uv"* ]]
 }
 
 # ── addPython ─────────────────────────────────────────────────────────────
 @test "addPython invokes addPyenv and addUv" {
   calls=""
   addPyenv() { calls="$calls pyenv"; }
-  addUv()    { calls="$calls uv"; }
+  addUv()        { calls="$calls uv"; }
   addPython
-  [[ "$calls" == *"pyenv"* ]]
-  [[ "$calls" == *"uv"* ]]
+      [[ "$calls" == *"pyenv"* ]]
+      [[ "$calls" == *"uv"* ]]
 }
 
 # ── addAwsCli ─────────────────────────────────────────────────────────────
 @test "addAwsCli returns immediately when already installed" {
   chkAwsCli() { echo true; }
   run addAwsCli
-  [ "$status" -eq 0 ]
-  [ -z "$output" ]
+      [ "$status" -eq 0 ]
+      [ -z "$output" ]
 }
