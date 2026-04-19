@@ -2,7 +2,7 @@
 
 # TL;DR
 PREREQUISITES
-curl & git
+None — curl and git are auto-installed via Homebrew if not found
 
 ## Mac || Linux (Ubuntu/CentOS) Setup
 Uses [Homebrew](https://brew.sh/) to setup Mac & Linux systems

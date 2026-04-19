@@ -110,6 +110,11 @@ if [ -d "$HOME/Library/Androd/sdk" ]; then
   export PATH=$PATH:$ADB
 fi
 
+# homebrew
+[[ -f ~/.zprofile ]] && source ~/.zprofile
+
+# uv
+export PATH="/Users/aperez/.local/bin:$PATH"
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"
