@@ -99,6 +99,48 @@ teardown() {
   [ "$output" = "brew install aws-iam-authenticator" ]
 }
 
+# ── addPyenv ──────────────────────────────────────────────────────────────
+@test "addPyenv upgrades when already installed" {
+  chkPyenv() { echo true; }
+  brew() { echo "brew $*"; }
+  run addPyenv
+  [ "$output" = "brew upgrade pyenv" ]
+}
+
+@test "addPyenv installs when not present and brew available" {
+  chkPyenv() { echo false; }
+  chkBrew()  { echo true; }
+  brew() { [[ "$1" == "ls" ]] && return 0 || echo "brew $*"; }
+  run addPyenv
+  [ "$output" = "brew install pyenv" ]
+}
+
+# ── addUv ─────────────────────────────────────────────────────────────────
+@test "addUv self-updates when already installed" {
+  chkUv() { echo true; }
+  uv() { echo "uv $*"; }
+  run addUv
+  [ "$output" = "uv self update" ]
+}
+
+@test "addUv installs via curl when not present" {
+  chkUv() { echo false; }
+  # Stub curl to emit a no-op script so sh doesn't do anything real
+  curl() { echo ":"; }
+  run addUv
+  [ "$status" -eq 0 ]
+}
+
+# ── addPython ─────────────────────────────────────────────────────────────
+@test "addPython invokes addPyenv and addUv" {
+  calls=""
+  addPyenv() { calls="$calls pyenv"; }
+  addUv()    { calls="$calls uv"; }
+  addPython
+  [[ "$calls" == *"pyenv"* ]]
+  [[ "$calls" == *"uv"* ]]
+}
+
 # ── addAwsCli ─────────────────────────────────────────────────────────────
 @test "addAwsCli returns immediately when already installed" {
   chkAwsCli() { echo true; }

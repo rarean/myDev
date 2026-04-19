@@ -10,8 +10,8 @@ Uses [Homebrew](https://brew.sh/) to setup Mac & Linux systems
 run `./setup.sh` to install packages
 ```bash
 $ ./setup.sh
-1) ReactFrontend   3) ReactFullstack  5) Java8           7) Quit
-2) MongoDB         4) AWS             6) K8S
+1) ReactFrontend   3) ReactFullstack  5) Java8           7) DotNet3.1  9) Quit
+2) MongoDB         4) AWS             6) K8S             8) Python
 Please enter your choice:
 ```
 ## Windows

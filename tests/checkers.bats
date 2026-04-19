@@ -205,6 +205,30 @@ fake() { touch "$MOCK_BIN/$1" && chmod +x "$MOCK_BIN/$1"; }
   [ "$output" = "true" ]
 }
 
+# ── chkPyenv ──────────────────────────────────────────────────────────────
+@test "chkPyenv returns true when pyenv exists" {
+  fake pyenv
+  run chkPyenv
+  [ "$output" = "true" ]
+}
+
+@test "chkPyenv returns false when pyenv not found" {
+  PATH="$MOCK_BIN" run chkPyenv
+  [ "$output" = "false" ]
+}
+
+# ── chkUv ─────────────────────────────────────────────────────────────────
+@test "chkUv returns true when uv exists" {
+  fake uv
+  run chkUv
+  [ "$output" = "true" ]
+}
+
+@test "chkUv returns false when uv not found" {
+  PATH="$MOCK_BIN" run chkUv
+  [ "$output" = "false" ]
+}
+
 # ── chkAwsCli ─────────────────────────────────────────────────────────────
 @test "chkAwsCli returns false when nvm/npm not available" {
   # _sourceNvm fails (no brew) → early exit with false

@@ -23,7 +23,7 @@ function confirm(){
 #}
 function projectChoise(){
   PS3='Please enter your choice: '
-  options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "K8S" "DotNet3.1" "Quit")
+  options=("ReactFrontend" "MongoDB" "ReactFullstack" "AWS" "Java8" "K8S" "DotNet3.1" "Python" "Quit")
   select opt in "${options[@]}"
   do
     #$REPLY holds number pkgs if needed
@@ -67,6 +67,11 @@ function projectChoise(){
           "DotNet3.1")
               #echo "Setup projects for dotNet 3.1"
               local pkgs=("Common" "DotNet31")
+              echo ${pkgs[@]}
+              break
+              ;;
+          "Python")
+              local pkgs=("Common" "Python")
               echo ${pkgs[@]}
               break
               ;;

@@ -95,3 +95,9 @@ function chkGitFileCurl(){
 function chkZshShell(){
   [[ "$(echo $0)" == "-zsh" ]] && echo true || echo false
 }
+function chkPyenv(){
+  [[ `command -v pyenv` ]] && echo true || echo false
+}
+function chkUv(){
+  [[ `command -v uv` ]] && echo true || echo false
+}

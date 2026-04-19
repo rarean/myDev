@@ -273,6 +273,29 @@ function addZshrc(){
   fi
   ln -sf $(pwd)/common/zshrc ~/.zshrc
 }
+function addPyenv(){
+  if [[ $(chkPyenv) = true ]]; then
+    brew upgrade pyenv
+    return
+  elif [[ $(chkBrew) = false ]]; then
+    addBrew
+    addPyenv
+  else
+    [[ `brew ls --versions pyenv` ]] && return || brew install pyenv
+  fi
+}
+function addUv(){
+  if [[ $(chkUv) = true ]]; then
+    uv self update
+    return
+  else
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+  fi
+}
+function addPython(){
+  addPyenv
+  addUv
+}
 function addCommon(){
   if [[ $(chkGit) = false ]]; then
     echo "git not found, installing via Homebrew..."
