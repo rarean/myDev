@@ -47,7 +47,7 @@ ZSH_THEME="robbyrussell"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
-source $ZSH/oh-my-zsh.sh
+source "$ZSH"/oh-my-zsh.sh
 
 # User configuration
 
@@ -80,14 +80,12 @@ fi
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # enable nvm
-if [ `command -v brew` ] ; then
-  export NVM_DIR="$HOME/.nvm"
-  export PATH="$PATH:$NVM_DIR"
-  source $(brew --prefix nvm)/nvm.sh
-fi
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+    FPATH="$(brew --prefix)/share/zsh/site-functions:$FPATH"
 
       autoload -Uz compinit
         compinit
@@ -109,15 +107,45 @@ if [ -d "$HOME/.dotnet/tools" ] ; then
 fi
 if [ -d "$HOME/Library/Androd/sdk" ]; then
   export ADB="$HOME/Library/Android/sdk/platform-tools"
-  export PATH=$PATH:$ADB
+  export PATH="$PATH:$ADB"
 fi
 
 # homebrew
 [[ -f ~/.zprofile ]] && source ~/.zprofile
 
+# enable atuin
+if [ "$(command -v atuin)" ]; then
+  eval "$(atuin init zsh)"
+  # make atuin launch on up-arrow
+  bindkey '^[[A' atuin-up-search
+fi
+
+# enable zoxide
+if [ "$(command -v zoxide)" ]; then
+  eval "$(zoxide init zsh)"
+  # use zoxide instead of cd
+  alias cd='z'
+fi
+
+# override ls with eza
+if [ "$(command -v eza)" ]; then
+  alias ls='eza -l --git --icons --group-directories-first'
+  alias ll='eza -lh --icons --grid --group-directories-first'
+  alias l='eza -la --git --git-repos-no-status --icons --group-directories-first'
+fi
+
+
 # uv
 export PATH="/Users/aperez/.local/bin:$PATH"
+
+# kiro
+if [ "$(command -v kiro-cli)" ];then
+  alias kiro='kiro-cli'
+fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"
 #[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+[[ ":$PATH:" != *":$HOME/.config/kaku/zsh/bin:"* ]] && export PATH="$HOME/.config/kaku/zsh/bin:$PATH" # Kaku PATH Integration
+[[ -f "$HOME/.config/kaku/zsh/kaku.zsh" ]] && source "$HOME/.config/kaku/zsh/kaku.zsh" # Kaku Shell Integration
